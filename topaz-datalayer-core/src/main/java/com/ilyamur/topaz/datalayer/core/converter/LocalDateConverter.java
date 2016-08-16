@@ -11,11 +11,19 @@ public class LocalDateConverter implements AttributeConverter<LocalDate, Timesta
 
     @Override
     public Timestamp convertToDatabaseColumn(LocalDate dateTime) {
-        return Timestamp.valueOf(dateTime.atStartOfDay());
+        if (dateTime != null) {
+            return Timestamp.valueOf(dateTime.atStartOfDay());
+        } else {
+            return null;
+        }
     }
 
     @Override
     public LocalDate convertToEntityAttribute(Timestamp sqlTimestamp) {
-        return sqlTimestamp.toLocalDateTime().toLocalDate();
+        if (sqlTimestamp != null) {
+            return sqlTimestamp.toLocalDateTime().toLocalDate();
+        } else {
+            return null;
+        }
     }
 }
