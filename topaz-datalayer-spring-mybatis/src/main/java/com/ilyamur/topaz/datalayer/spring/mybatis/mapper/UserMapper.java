@@ -2,6 +2,7 @@ package com.ilyamur.topaz.datalayer.spring.mybatis.mapper;
 
 import com.ilyamur.topaz.datalayer.core.entity.Role;
 import com.ilyamur.topaz.datalayer.core.entity.User;
+
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Many;

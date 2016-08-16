@@ -1,4 +1,4 @@
-package com.ilyamur.topaz.datalayer.spring.mybatis;
+package com.ilyamur.topaz.datalayer.core;
 
 public class ApplicationProfile {
 

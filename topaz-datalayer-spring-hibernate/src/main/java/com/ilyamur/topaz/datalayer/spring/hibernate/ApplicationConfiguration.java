@@ -1,4 +1,4 @@
-package com.ilyamur.topaz.datalayer.spring.mybatis;
+package com.ilyamur.topaz.datalayer.spring.hibernate;
 
 import com.ilyamur.topaz.datalayer.core.CoreConfiguration;
 
@@ -10,7 +10,7 @@ import org.springframework.context.annotation.Import;
 @ComponentScan
 @Import({
         CoreConfiguration.class,
-        MybatisConfiguration.class,
+        HibernateConfiguration.class,
         TransactionConfiguration.class
 })
 public class ApplicationConfiguration {

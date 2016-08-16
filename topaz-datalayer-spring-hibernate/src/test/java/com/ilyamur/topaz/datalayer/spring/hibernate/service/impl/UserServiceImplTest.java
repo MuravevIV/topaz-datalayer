@@ -1,7 +1,7 @@
-package com.ilyamur.topaz.datalayer.spring.mybatis.service.impl;
+package com.ilyamur.topaz.datalayer.spring.hibernate.service.impl;
 
 import com.ilyamur.topaz.datalayer.core.ApplicationProfile;
-import com.ilyamur.topaz.datalayer.spring.mybatis.ApplicationConfiguration;
+import com.ilyamur.topaz.datalayer.spring.hibernate.ApplicationConfiguration;
 import com.ilyamur.topaz.datalayer.testsuite.UserServiceImplTestSuite;
 
 import org.junit.runner.RunWith;

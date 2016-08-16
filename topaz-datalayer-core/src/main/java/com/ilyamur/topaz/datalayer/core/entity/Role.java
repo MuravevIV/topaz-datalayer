@@ -1,7 +1,18 @@
 package com.ilyamur.topaz.datalayer.core.entity;
 
+import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
+import com.sun.istack.internal.NotNull;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.validation.constraints.Size;
+
+@Entity
+@Table(name = "role")
 public class Role {
 
     public static final Role REGISTERED_USER;
@@ -18,7 +29,12 @@ public class Role {
         ADMIN.setName("ADMIN");
     }
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+
+    @NotNull
+    @Size(min = 2, max = 80)
     private String name;
 
     public Long getId() {
@@ -49,5 +65,13 @@ public class Role {
     @Override
     public int hashCode() {
         return Objects.hashCode(id, name);
+    }
+
+    @Override
+    public String toString() {
+        return MoreObjects.toStringHelper(this)
+                .add("id", id)
+                .add("name", name)
+                .toString();
     }
 }

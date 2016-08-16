@@ -1,4 +1,4 @@
-package com.ilyamur.topaz.datalayer.spring.mybatis.service.exception;
+package com.ilyamur.topaz.datalayer.core.exception;
 
 public class LoginExistsException extends Exception {
 
@@ -6,8 +6,8 @@ public class LoginExistsException extends Exception {
 
     private String message;
 
-    public LoginExistsException(String email) {
-        this.message = String.format(MESSAGE, email);
+    public LoginExistsException(String login) {
+        this.message = String.format(MESSAGE, login);
     }
 
     public LoginExistsException(String email, Throwable cause) {

@@ -1,7 +1,8 @@
-package com.ilyamur.topaz.datalayer.spring.mybatis.service.impl;
+package com.ilyamur.topaz.datalayer.core.service.impl;
 
-import com.ilyamur.topaz.datalayer.spring.mybatis.ApplicationProfile;
-import com.ilyamur.topaz.datalayer.spring.mybatis.service.DatabaseReset;
+import com.ilyamur.topaz.datalayer.core.ApplicationProfile;
+import com.ilyamur.topaz.datalayer.core.service.DatabaseReset;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,7 +1,7 @@
-package com.ilyamur.topaz.datalayer.spring.mybatis.service;
+package com.ilyamur.topaz.datalayer.core.service;
 
 import com.ilyamur.topaz.datalayer.core.entity.User;
-import com.ilyamur.topaz.datalayer.spring.mybatis.service.exception.LoginExistsException;
+import com.ilyamur.topaz.datalayer.core.exception.LoginExistsException;
 
 import java.util.Collection;
 

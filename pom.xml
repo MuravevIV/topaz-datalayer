@@ -11,6 +11,8 @@
     <modules>
         <module>topaz-datalayer-spring-mybatis</module>
         <module>topaz-datalayer-core</module>
+        <module>topaz-datalayer-spring-hibernate</module>
+        <module>topaz-datalayer-testsuite</module>
     </modules>
 
     <properties>
@@ -92,6 +94,7 @@
             <groupId>org.springframework</groupId>
             <artifactId>spring-test</artifactId>
             <version>${spring.version}</version>
+            <scope>test</scope>
         </dependency>
 
     </dependencies>

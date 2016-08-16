@@ -1,5 +1,7 @@
 package com.ilyamur.topaz.datalayer.spring.mybatis;
 
+import com.ilyamur.topaz.datalayer.core.DataSourceConfiguration;
+
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.SqlSessionTemplate;
@@ -12,7 +14,9 @@ import org.springframework.core.io.ClassPathResource;
 import javax.sql.DataSource;
 
 @Configuration
-@Import(DataSourceConfiguration.class)
+@Import({
+        DataSourceConfiguration.class
+})
 public class MybatisConfiguration {
 
     public static final String MYBATIS_CONFIG_XML = "mybatis/config.xml";
