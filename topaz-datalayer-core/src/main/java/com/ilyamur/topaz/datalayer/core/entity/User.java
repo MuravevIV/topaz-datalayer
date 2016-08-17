@@ -4,7 +4,6 @@ import com.ilyamur.topaz.datalayer.core.converter.LocalDateConverter;
 
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
-import com.sun.istack.internal.NotNull;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Convert;
@@ -17,6 +16,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import java.time.LocalDate;
