@@ -17,6 +17,7 @@ import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.time.Month;
@@ -25,6 +26,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Ignore
+@Transactional
 public class UserServiceImplTestSuite {
 
     private static final int EXISTING_ID_USER = 0;
@@ -49,9 +51,8 @@ public class UserServiceImplTestSuite {
     public void saveThenFindByIdUser() throws LoginExistsException {
         User user = createAnyUser();
         User savedUser = target.save(user);
-        User foundUser = target.findById(user.getId());
+        User foundUser = target.findById(savedUser.getId());
 
-        assertEquals(user.getId(), savedUser.getId());
         assertEquals(savedUser, foundUser);
     }
 
@@ -61,7 +62,6 @@ public class UserServiceImplTestSuite {
         User savedUser = target.save(user);
         User foundUser = target.findByLogin(user.getLogin());
 
-        assertEquals(user.getId(), savedUser.getId());
         assertEquals(savedUser, foundUser);
     }
 
@@ -101,10 +101,11 @@ public class UserServiceImplTestSuite {
         User userAbby = createUser(sameLogin, ANY_EMAIL, ANY_BIRTHDAY, ANY_ROLES);
         User userBrian = createUser(sameLogin, ANY_EMAIL, ANY_BIRTHDAY, ANY_ROLES);
 
-        target.save(userAbby);
+        User savedUserAbby = target.save(userAbby);
+        User savedUserBrian = null;
         LoginExistsException exc = null;
         try {
-            target.save(userBrian);
+            savedUserBrian = target.save(userBrian);
         } catch (LoginExistsException e) {
             exc = e;
         }
@@ -112,8 +113,8 @@ public class UserServiceImplTestSuite {
         assertNotNull("LoginExistsException expected", exc);
         assertEquals(String.format(LoginExistsException.MESSAGE, sameLogin), exc.getMessage());
         Collection<User> users = target.getAll();
-        assertTrue("User SHOULD be persisted in database", users.contains(userAbby));
-        assertFalse("User SHOULD NOT be persisted in database", users.contains(userBrian));
+        assertTrue("User SHOULD be persisted in database", users.contains(savedUserAbby));
+        assertFalse("User SHOULD NOT be persisted in database", users.contains(savedUserBrian));
     }
 
     @Test

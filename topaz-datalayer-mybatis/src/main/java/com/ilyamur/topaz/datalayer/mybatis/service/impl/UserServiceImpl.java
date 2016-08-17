@@ -11,6 +11,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.PostConstruct;
@@ -34,7 +35,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    @Transactional(rollbackFor = {LoginExistsException.class})
+    @Transactional(propagation = Propagation.REQUIRES_NEW, rollbackFor = {LoginExistsException.class})
     public User save(User user) throws LoginExistsException {
         if (user != null) {
             try {
@@ -51,7 +52,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    @Transactional(rollbackFor = {LoginExistsException.class})
+    @Transactional(propagation = Propagation.REQUIRES_NEW, rollbackFor = {LoginExistsException.class})
     public Collection<User> saveAll(Collection<User> users) throws LoginExistsException {
         ArrayList<User> savedUsers = Lists.newArrayList();
         for (User user : users) {

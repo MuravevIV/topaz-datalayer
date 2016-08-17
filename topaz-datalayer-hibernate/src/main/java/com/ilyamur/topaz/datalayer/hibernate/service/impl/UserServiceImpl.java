@@ -10,13 +10,13 @@ import org.hibernate.SessionFactory;
 import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collection;
 import java.util.List;
 
 @Service
-@Transactional(rollbackFor = {LoginExistsException.class})
 public class UserServiceImpl implements UserService {
 
     private static final String CONSTRAINT_UNIQUE_LOGIN = "U0_USER_LOGIN";
@@ -29,9 +29,10 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional(propagation = Propagation.REQUIRES_NEW, rollbackFor = {LoginExistsException.class})
     public User save(User user) throws LoginExistsException {
         try {
-            getSession().saveOrUpdate(user);
+            return (User) getSession().merge(user);
         } catch (ConstraintViolationException e) {
             if (CONSTRAINT_UNIQUE_LOGIN.equals(e.getConstraintName())) {
                 throw new LoginExistsException(user.getLogin());
@@ -39,11 +40,11 @@ public class UserServiceImpl implements UserService {
                 throw e;
             }
         }
-        return user;
     }
 
     @Override
     @SuppressWarnings("unchecked")
+    @Transactional(propagation = Propagation.REQUIRES_NEW, rollbackFor = {LoginExistsException.class})
     public Collection<User> saveAll(Collection<User> users) throws LoginExistsException {
         List<User> savedUsers = Lists.newArrayList();
         for (User user : users) {
