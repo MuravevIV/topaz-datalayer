@@ -42,6 +42,7 @@
             <groupId>com.ilyamur.topaz.datalayer</groupId>
             <artifactId>topaz-datalayer-testsuite</artifactId>
             <version>1.0-SNAPSHOT</version>
+            <scope>test</scope>
         </dependency>
 
     </dependencies>

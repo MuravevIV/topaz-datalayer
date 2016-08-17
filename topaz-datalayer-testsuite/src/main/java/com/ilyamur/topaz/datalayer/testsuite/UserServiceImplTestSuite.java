@@ -26,7 +26,6 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Ignore
-@Transactional
 public class UserServiceImplTestSuite {
 
     private static final int EXISTING_ID_USER = 0;
@@ -47,7 +46,13 @@ public class UserServiceImplTestSuite {
         databaseReset.apply();
     }
 
+    @Test(expected = Exception.class)
+    public void anyAction_outsideActiveTransaction_throwsException() {
+        target.findById(0);
+    }
+
     @Test
+    @Transactional
     public void saveThenFindByIdUser() throws LoginExistsException {
         User user = createAnyUser();
         User savedUser = target.save(user);
@@ -57,6 +62,7 @@ public class UserServiceImplTestSuite {
     }
 
     @Test
+    @Transactional
     public void saveThenFindByLogin() throws LoginExistsException {
         User user = createAnyUser();
         User savedUser = target.save(user);
@@ -66,6 +72,7 @@ public class UserServiceImplTestSuite {
     }
 
     @Test
+    @Transactional
     public void findByIdUserThenSave() throws LoginExistsException {
         User foundUser = target.findById(EXISTING_ID_USER);
         User savedUser = target.save(foundUser);
@@ -74,6 +81,7 @@ public class UserServiceImplTestSuite {
     }
 
     @Test
+    @Transactional
     public void findByLoginThenSave() throws LoginExistsException {
         User foundUser = target.findByLogin(EXISTING_LOGIN);
         User savedUser = target.save(foundUser);
@@ -82,6 +90,7 @@ public class UserServiceImplTestSuite {
     }
 
     @Test
+    @Transactional
     public void updateBirthday() throws LoginExistsException {
         LocalDate newBirthday = LocalDate.of(1985, Month.DECEMBER, 5);
         User updatedUser = target.findByLogin(EXISTING_LOGIN);
@@ -94,6 +103,7 @@ public class UserServiceImplTestSuite {
     }
 
     @Test
+    @Transactional
     public void saveTwoUsersWithSameLoginSequentially_savesOnlyFirstUserAndThrowsLoginExistsException()
             throws LoginExistsException {
 
@@ -118,6 +128,7 @@ public class UserServiceImplTestSuite {
     }
 
     @Test
+    @Transactional
     public void saveTwoUsersWithSameLoginSimultaneously_doNotSaveAnyUserAndThrowsLoginExistsException()
             throws LoginExistsException {
 
