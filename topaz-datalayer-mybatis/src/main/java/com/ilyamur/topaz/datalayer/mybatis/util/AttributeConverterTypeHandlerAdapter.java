@@ -21,7 +21,7 @@ public abstract class AttributeConverterTypeHandlerAdapter<X, Y> extends BaseTyp
         return converter;
     }
 
-    protected abstract AttributeConverter<X,Y> createConverter();
+    protected abstract AttributeConverter<X, Y> createConverter();
 
     @Override
     public void setNonNullParameter(PreparedStatement ps, int i, X parameter, JdbcType jdbcType) throws SQLException {

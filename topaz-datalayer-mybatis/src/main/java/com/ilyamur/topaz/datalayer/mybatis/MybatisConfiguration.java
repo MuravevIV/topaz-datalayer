@@ -6,7 +6,6 @@ import com.ilyamur.topaz.datalayer.mybatis.util.MandatoryTransactionSpringManage
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.SqlSessionTemplate;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
@@ -22,11 +21,8 @@ public class MybatisConfiguration {
 
     public static final String MYBATIS_CONFIG_XML = "mybatis/config.xml";
 
-    @Autowired
-    private DataSource dataSource;
-
     @Bean
-    public SqlSessionFactory sqlSessionFactory() throws Exception {
+    public SqlSessionFactory sqlSessionFactory(DataSource dataSource) throws Exception {
         SqlSessionFactoryBean sqlSessionFactory = new SqlSessionFactoryBean();
         sqlSessionFactory.setConfigLocation(new ClassPathResource(MYBATIS_CONFIG_XML));
         sqlSessionFactory.setDataSource(dataSource);
@@ -35,7 +31,7 @@ public class MybatisConfiguration {
     }
 
     @Bean
-    public SqlSessionTemplate sqlSessionTemplate() throws Exception {
-        return new SqlSessionTemplate(sqlSessionFactory());
+    public SqlSessionTemplate sqlSessionTemplate(SqlSessionFactory sqlSessionFactory) throws Exception {
+        return new SqlSessionTemplate(sqlSessionFactory);
     }
 }

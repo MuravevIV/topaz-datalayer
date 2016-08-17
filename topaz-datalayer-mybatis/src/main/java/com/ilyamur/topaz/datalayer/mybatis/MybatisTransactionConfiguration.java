@@ -17,7 +17,7 @@ import javax.sql.DataSource;
 @Import({
         DataSourceConfiguration.class
 })
-public class TransactionConfiguration {
+public class MybatisTransactionConfiguration {
 
     @Autowired
     DataSource dataSource;

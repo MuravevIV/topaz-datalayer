@@ -1,7 +1,6 @@
 package com.ilyamur.topaz.datalayer.hibernate;
 
 import org.hibernate.SessionFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
@@ -11,15 +10,12 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @Configuration
 @EnableTransactionManagement
 @Import({
-        HibernateConfiguration.class
+        HibernateSessionFactoryConfiguration.class
 })
-public class TransactionConfiguration {
-
-    @Autowired
-    private SessionFactory sessionFactory;
+public class HibernateTransactionConfiguration {
 
     @Bean
-    public HibernateTransactionManager transactionManager() {
+    public HibernateTransactionManager transactionManager(SessionFactory sessionFactory) {
         HibernateTransactionManager transactionManager = new HibernateTransactionManager();
         transactionManager.setSessionFactory(sessionFactory);
         return transactionManager;

@@ -11,7 +11,7 @@ import org.springframework.context.annotation.Import;
 @Import({
         CoreConfiguration.class,
         HibernateConfiguration.class,
-        TransactionConfiguration.class
+        HibernateTransactionConfiguration.class
 })
 public class ApplicationConfiguration {
 }

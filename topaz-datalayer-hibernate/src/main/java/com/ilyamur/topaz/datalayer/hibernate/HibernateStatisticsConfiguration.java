@@ -19,6 +19,8 @@ import java.util.HashMap;
 })
 public class HibernateStatisticsConfiguration {
 
+    private static final String HIBERNATE_TYPE_STATISTICS = "Hibernate:type=statistics";
+
     @Bean
     public HibernateStatisticsFactoryBean hibernateStatisticsMBean(SessionFactory sessionFactory) {
         HibernateStatisticsFactoryBean bean = new HibernateStatisticsFactoryBean();
@@ -37,7 +39,7 @@ public class HibernateStatisticsConfiguration {
     public MBeanExporter jmxExporter(Statistics statistics) {
         MBeanExporter bean = new MBeanExporter();
         HashMap<String, Object> beans = Maps.newHashMap();
-        beans.put("Hibernate:type=statistics", statistics);
+        beans.put(HIBERNATE_TYPE_STATISTICS, statistics);
         bean.setBeans(beans);
         return bean;
     }
