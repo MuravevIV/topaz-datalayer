@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 @Service
+@Transactional(propagation = Propagation.MANDATORY)
 public class UserServiceImpl implements UserService {
 
     private static final String CONSTRAINT_UNIQUE_LOGIN = "U0_USER_LOGIN";
@@ -35,7 +36,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    @Transactional(propagation = Propagation.REQUIRES_NEW, rollbackFor = {LoginExistsException.class})
+    @Transactional(propagation = Propagation.NESTED, rollbackFor = {LoginExistsException.class})
     public User save(User user) throws LoginExistsException {
         if (user != null) {
             try {
@@ -52,7 +53,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    @Transactional(propagation = Propagation.REQUIRES_NEW, rollbackFor = {LoginExistsException.class})
+    @Transactional(propagation = Propagation.NESTED, rollbackFor = {LoginExistsException.class})
     public Collection<User> saveAll(Collection<User> users) throws LoginExistsException {
         ArrayList<User> savedUsers = Lists.newArrayList();
         for (User user : users) {

@@ -14,6 +14,7 @@
         <module>topaz-datalayer-core</module>
         <module>topaz-datalayer-hibernate</module>
         <module>topaz-datalayer-testsuite</module>
+        <module>topaz-datalayer-jpahibernate</module>
     </modules>
 
     <properties>
@@ -25,7 +26,7 @@
         <commons-lang3.version>3.4</commons-lang3.version>
         <commons-io.version>2.5</commons-io.version>
         <spring.version>4.3.2.RELEASE</spring.version>
-        <hsqldb.version>2.2.9</hsqldb.version>
+        <hsqldb.version>2.3.4</hsqldb.version>
 
         <slf4j-api.version>1.7.12</slf4j-api.version>
         <logback-classic.version>1.1.3</logback-classic.version>

@@ -23,14 +23,12 @@ import java.time.LocalDate;
 import java.time.Month;
 import java.util.Collection;
 import java.util.HashSet;
-import java.util.Set;
 
 @Ignore
 public class UserServiceImplTestSuite {
 
     private static final int EXISTING_ID_USER = 0;
     private static final String EXISTING_LOGIN = "John";
-    private static final String ANY_LOGIN = "Dan";
     private static final String ANY_EMAIL = "any@gmail.com";
     private static final LocalDate ANY_BIRTHDAY = LocalDate.of(1990, Month.APRIL, 27);
     private static final HashSet<Role> ANY_ROLES = Sets.newHashSet(Role.REGISTERED_USER, Role.ADMIN);
@@ -41,20 +39,29 @@ public class UserServiceImplTestSuite {
     @Autowired
     private DatabaseReset databaseReset;
 
+    @Autowired
+    private UserServiceImplTestScenario helper;
+
     @Before
     public void before() {
         databaseReset.apply();
     }
 
     @Test(expected = Exception.class)
-    public void anyAction_outsideActiveTransaction_throwsException() {
-        target.findById(0);
+    public void anyAction_outsideActiveTransaction_throwsException() throws InterruptedException {
+        target.getAll();
+    }
+
+    @Test
+    @Transactional
+    public void anyAction_insideActiveTransaction_isOk() {
+        target.getAll();
     }
 
     @Test
     @Transactional
     public void saveThenFindByIdUser() throws LoginExistsException {
-        User user = createAnyUser();
+        User user = helper.createAnyUser();
         User savedUser = target.save(user);
         User foundUser = target.findById(savedUser.getId());
 
@@ -64,7 +71,7 @@ public class UserServiceImplTestSuite {
     @Test
     @Transactional
     public void saveThenFindByLogin() throws LoginExistsException {
-        User user = createAnyUser();
+        User user = helper.createAnyUser();
         User savedUser = target.save(user);
         User foundUser = target.findByLogin(user.getLogin());
 
@@ -104,18 +111,15 @@ public class UserServiceImplTestSuite {
 
     @Test
     @Transactional
-    public void saveTwoUsersWithSameLoginSequentially_savesOnlyFirstUserAndThrowsLoginExistsException()
-            throws LoginExistsException {
-
+    public void saveTwoUsersWithSameLoginSequentially_savesOnlyFirstUserAndThrowsLoginExistsException() throws LoginExistsException {
         String sameLogin = "BigBy";
-        User userAbby = createUser(sameLogin, ANY_EMAIL, ANY_BIRTHDAY, ANY_ROLES);
-        User userBrian = createUser(sameLogin, ANY_EMAIL, ANY_BIRTHDAY, ANY_ROLES);
+        User userAbby = helper.createUser(sameLogin, ANY_EMAIL, ANY_BIRTHDAY, ANY_ROLES);
+        User userBrian = helper.createUser(sameLogin, ANY_EMAIL, ANY_BIRTHDAY, ANY_ROLES);
 
         User savedUserAbby = target.save(userAbby);
-        User savedUserBrian = null;
         LoginExistsException exc = null;
         try {
-            savedUserBrian = target.save(userBrian);
+            target.save(userBrian);
         } catch (LoginExistsException e) {
             exc = e;
         }
@@ -124,18 +128,18 @@ public class UserServiceImplTestSuite {
         assertEquals(String.format(LoginExistsException.MESSAGE, sameLogin), exc.getMessage());
         Collection<User> users = target.getAll();
         assertTrue("User SHOULD be persisted in database", users.contains(savedUserAbby));
-        assertFalse("User SHOULD NOT be persisted in database", users.contains(savedUserBrian));
+        assertFalse("User SHOULD NOT be persisted in database", users.contains(userBrian));
     }
 
     @Test
     @Transactional
-    public void saveTwoUsersWithSameLoginSimultaneously_doNotSaveAnyUserAndThrowsLoginExistsException()
-            throws LoginExistsException {
-
+    public void saveTwoUsersWithSameLoginSimultaneously_doNotSaveAnyUserAndThrowsLoginExistsException() throws LoginExistsException {
+        User userUno = helper.createUser("Uno", ANY_EMAIL, ANY_BIRTHDAY, ANY_ROLES);
         String sameLogin = "BigBy";
-        User userAbby = createUser(sameLogin, ANY_EMAIL, ANY_BIRTHDAY, ANY_ROLES);
-        User userBrian = createUser(sameLogin, ANY_EMAIL, ANY_BIRTHDAY, ANY_ROLES);
+        User userAbby = helper.createUser(sameLogin, ANY_EMAIL, ANY_BIRTHDAY, ANY_ROLES);
+        User userBrian = helper.createUser(sameLogin, ANY_EMAIL, ANY_BIRTHDAY, ANY_ROLES);
 
+        target.save(userUno);
         LoginExistsException exc = null;
         try {
             target.saveAll(Lists.newArrayList(userAbby, userBrian));
@@ -146,19 +150,23 @@ public class UserServiceImplTestSuite {
         assertNotNull("LoginExistsException expected", exc);
         assertEquals(String.format(LoginExistsException.MESSAGE, sameLogin), exc.getMessage());
         Collection<User> users = target.getAll();
-        assertFalse("User SHOULD NOT be persisted in database", users.contains(userAbby));
-        assertFalse("User SHOULD NOT be persisted in database", users.contains(userBrian));
+        assertTrue("User SHOULD be persisted in database", users.contains(userUno));
     }
 
-    private User createUser(String login, String email, LocalDate birthday, Set<Role> roles) {
-        User user = new User();
-        user.setLogin(login);
-        user.setBirthday(birthday);
-        user.setRoles(roles);
-        return user;
-    }
+    @Test
+    public void saveUsersInNestedExceptionScenario_savesNothing() throws LoginExistsException {
+        int initialCount = helper.getUserCount();
 
-    private User createAnyUser() {
-        return createUser(ANY_LOGIN, ANY_EMAIL, ANY_BIRTHDAY, ANY_ROLES);
+        RuntimeException exc = null;
+        try {
+            helper.nestedExceptionScenario();
+        } catch (ScenarioException e) {
+            exc = e;
+        }
+
+        int afterFailedTransactionCount = helper.getUserCount();
+
+        assertNotNull("ScenarioException expected", exc);
+        assertEquals("User count SHOULD be unchanged", initialCount, afterFailedTransactionCount);
     }
 }

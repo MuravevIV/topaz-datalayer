@@ -6,14 +6,12 @@ import com.google.common.collect.Maps;
 import org.hibernate.SessionFactory;
 import org.hibernate.stat.Statistics;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.jmx.export.MBeanExporter;
 import org.springframework.jmx.support.MBeanServerFactoryBean;
 
 import java.util.HashMap;
 
-@Configuration
 @Import({
         HibernateSessionFactoryConfiguration.class
 })
