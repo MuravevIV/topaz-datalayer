@@ -1,6 +1,7 @@
 package com.ilyamur.topaz.datalayer.core.service.impl;
 
 import com.ilyamur.topaz.datalayer.core.ApplicationProfile;
+import com.ilyamur.topaz.datalayer.core.service.DatabaseInitialization;
 import com.ilyamur.topaz.datalayer.core.service.DatabaseReset;
 
 import org.slf4j.Logger;
@@ -18,22 +19,25 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 @Component
-@Profile(ApplicationProfile.TESTING)
+@Profile({ApplicationProfile.TESTING, ApplicationProfile.DEVELOP})
 public class DatabaseResetImpl implements DatabaseReset {
 
     private static final Logger LOG = LoggerFactory.getLogger(DatabaseResetImpl.class);
 
-    private static final String DB_SCHEMA_SQL = "db/schema.sql";
     private static final String DB_INITIAL_SQL = "db/initial.sql";
 
     @Autowired
     private DataSource dataSource;
 
+    @Autowired
+    private DatabaseInitialization databaseInitialization;
+
     @Override
     public void apply() {
         try {
             cleanup();
-            populate();
+            databaseInitialization.apply();
+            populateWithInitialData();
         } catch (SQLException e) {
             LOG.error(e.getMessage(), e);
         }
@@ -45,10 +49,9 @@ public class DatabaseResetImpl implements DatabaseReset {
         }
     }
 
-    private void populate() throws SQLException {
+    private void populateWithInitialData() throws SQLException {
         try (Connection connection = dataSource.getConnection()) {
             ResourceDatabasePopulator populator = new ResourceDatabasePopulator();
-            populator.addScript(new ClassPathResource(DB_SCHEMA_SQL));
             populator.addScript(new ClassPathResource(DB_INITIAL_SQL));
             populator.populate(connection);
         }

@@ -1,9 +1,12 @@
 package com.ilyamur.topaz.datalayer.core.entity;
 
 import com.ilyamur.topaz.datalayer.core.converter.LocalDateConverter;
+import com.ilyamur.topaz.datalayer.core.service.UserMailingService;
 
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Configurable;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Convert;
@@ -16,6 +19,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -24,7 +28,12 @@ import java.util.Set;
 
 @Entity
 @Table(name = "user")
+@Configurable
 public class User {
+
+    @Transient
+    @Autowired(required = false)
+    private UserMailingService userMailingService;
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -33,6 +42,10 @@ public class User {
     @NotNull
     @Size(min = 2, max = 80)
     private String login;
+
+    @NotNull
+    @Size(min = 5, max = 80)
+    private String email;
 
     @NotNull
     @Convert(converter = LocalDateConverter.class)
@@ -60,6 +73,14 @@ public class User {
         this.login = login;
     }
 
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
     public LocalDate getBirthday() {
         return birthday;
     }
@@ -74,6 +95,10 @@ public class User {
 
     public void setRoles(Set<Role> roles) {
         this.roles = roles;
+    }
+
+    public void sendEmail(String text) {
+        userMailingService.sendEmail(getEmail(), text);
     }
 
     @Override

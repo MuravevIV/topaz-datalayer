@@ -1,6 +1,6 @@
 package com.ilyamur.topaz.datalayer.mybatis;
 
-import com.ilyamur.topaz.datalayer.core.DataSourceConfiguration;
+import com.ilyamur.topaz.datalayer.core.DatabaseTestingConfiguration;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -15,7 +15,7 @@ import javax.sql.DataSource;
 @Configuration
 @EnableTransactionManagement
 @Import({
-        DataSourceConfiguration.class
+        DatabaseTestingConfiguration.class
 })
 public class MybatisTransactionConfiguration {
 

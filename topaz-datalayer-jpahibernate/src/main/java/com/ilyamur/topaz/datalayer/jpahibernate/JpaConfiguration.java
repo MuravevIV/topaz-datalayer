@@ -1,6 +1,6 @@
 package com.ilyamur.topaz.datalayer.jpahibernate;
 
-import com.ilyamur.topaz.datalayer.core.DataSourceConfiguration;
+import com.ilyamur.topaz.datalayer.core.DatabaseTestingConfiguration;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Import;
@@ -13,7 +13,7 @@ import javax.sql.DataSource;
 import java.util.Properties;
 
 @Import({
-        DataSourceConfiguration.class
+        DatabaseTestingConfiguration.class
 })
 public class JpaConfiguration {
 

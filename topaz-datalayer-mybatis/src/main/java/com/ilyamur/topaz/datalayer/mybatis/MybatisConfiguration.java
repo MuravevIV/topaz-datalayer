@@ -1,6 +1,6 @@
 package com.ilyamur.topaz.datalayer.mybatis;
 
-import com.ilyamur.topaz.datalayer.core.DataSourceConfiguration;
+import com.ilyamur.topaz.datalayer.core.DatabaseTestingConfiguration;
 
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;
@@ -14,7 +14,7 @@ import javax.sql.DataSource;
 
 @Configuration
 @Import({
-        DataSourceConfiguration.class
+        DatabaseTestingConfiguration.class
 })
 public class MybatisConfiguration {
 

@@ -15,6 +15,8 @@
         <module>topaz-datalayer-hibernate</module>
         <module>topaz-datalayer-testsuite</module>
         <module>topaz-datalayer-jpahibernate</module>
+        <module>topaz-datalayer-webapp</module>
+        <module>topaz-datalayer-servicelayer</module>
     </modules>
 
     <properties>
@@ -97,6 +99,11 @@
             <artifactId>spring-test</artifactId>
             <version>${spring.version}</version>
             <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-all</artifactId>
+            <version>1.10.19</version>
         </dependency>
 
     </dependencies>

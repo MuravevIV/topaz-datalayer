@@ -19,21 +19,21 @@ import java.util.Set;
 
 public interface UserMapper {
 
-    String SELECT_ALL = "select id, login, birthday";
+    String SELECT_ALL = "select id, login, email, birthday";
     String FROM_USER = "from user";
     String USER_RESULT = "userResult";
     String ROLE_RESULT = "roleResult";
 
     @Insert({
-            "insert into user (id, login, birthday)",
-            "values (#{id}, #{login}, #{birthday})"
+            "insert into user (id, login, email, birthday)",
+            "values (#{id}, #{login}, #{email}, #{birthday})"
     })
     @Options(useGeneratedKeys = true, keyProperty = "id")
     int insert(User user);
 
     @Update({
             "update user",
-            "set login = #{login}, birthday = #{birthday}",
+            "set login = #{login}, email = #{email}, birthday = #{birthday}",
             "where id = #{id}"
     })
     int update(User user);
@@ -52,6 +52,7 @@ public interface UserMapper {
     @Results(id = USER_RESULT, value = {
             @Result(column = "id", property = "id", id = true),
             @Result(column = "login", property = "login"),
+            @Result(column = "email", property = "email"),
             @Result(column = "birthday", property = "birthday"),
             @Result(column = "id", property = "roles", many = @Many(select = "selectRolesById"))
     })
