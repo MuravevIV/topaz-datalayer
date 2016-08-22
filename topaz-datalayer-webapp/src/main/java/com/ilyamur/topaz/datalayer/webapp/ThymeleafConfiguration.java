@@ -14,7 +14,7 @@ public class ThymeleafConfiguration {
     @Bean
     public TemplateResolver templateResolver() {
         SpringResourceTemplateResolver templateResolver = new SpringResourceTemplateResolver();
-        templateResolver.setPrefix("/WEB-INF/templates/");
+        templateResolver.setPrefix("/WEB-INF/templates");
         templateResolver.setSuffix(".html");
         templateResolver.setTemplateMode("HTML5");
         // cache should generally be enabled (especially on production)

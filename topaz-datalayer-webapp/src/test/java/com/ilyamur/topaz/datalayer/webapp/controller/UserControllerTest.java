@@ -1,16 +1,16 @@
 package com.ilyamur.topaz.datalayer.webapp.controller;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.flash;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
-import com.ilyamur.topaz.datalayer.webapp.WebappRootConfiguration;
-import com.ilyamur.topaz.datalayer.webapp.WebappServletConfiguration;
 import com.ilyamur.topaz.datalayer.core.ApplicationProfile;
 import com.ilyamur.topaz.datalayer.core.service.DatabaseReset;
+import com.ilyamur.topaz.datalayer.webapp.WebappConfiguration;
 
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +23,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = {WebappRootConfiguration.class, WebappServletConfiguration.class})
+@ContextConfiguration(classes = {WebappConfiguration.class})
 @WebAppConfiguration
 @ActiveProfiles(ApplicationProfile.TESTING)
 public class UserControllerTest {
@@ -44,15 +44,22 @@ public class UserControllerTest {
 
     @Test
     public void users() throws Exception {
-        mockMvc.perform(get("/users"))
+        mockMvc.perform(get(WebUrl.USERS))
                 .andExpect(status().isOk())
-                .andExpect(view().name("users"));
+                .andExpect(view().name(WebUrl.USERS));
     }
 
     @Test
-    @Ignore // todo fix pojo weaving
     public void usersEmailSend() throws Exception {
-        mockMvc.perform(get("/users/email/send"))
-                .andExpect(status().isOk());
+        String id = "0";
+        String login = "John";
+        String emailText = "test";
+
+        mockMvc.perform(get(WebUrl.USERS_EMAIL_SEND)
+                .param(UserController.Param.ID, id)
+                .param(UserController.Param.EMAIL_TEXT, emailText))
+                .andExpect(redirectedUrl(WebUrl.USERS_EMAIL_REPORT))
+                .andExpect(flash().attribute(UserController.Param.USER_LOGIN, login))
+                .andExpect(flash().attribute(UserController.Param.EMAIL_TEXT, emailText));
     }
 }

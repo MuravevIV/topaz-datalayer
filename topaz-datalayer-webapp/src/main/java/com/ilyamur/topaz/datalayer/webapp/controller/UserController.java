@@ -21,28 +21,36 @@ public class UserController {
     @Autowired
     private UserRepository userRepository;
 
-    @RequestMapping(value = "/users", method = RequestMethod.GET)
+    public static class Param {
+        public static final String ID = "id";
+        public static final String USERS = "users";
+        public static final String USER_LOGIN = "userLogin";
+        public static final String EMAIL_TEXT = "emailText";
+    }
+
+    @RequestMapping(value = WebUrl.USERS, method = RequestMethod.GET)
     @Transactional
     public String users(Model model) {
         Collection<User> users = userRepository.getAll();
-        model.addAttribute("users", users);
-        return "users";
+        model.addAttribute(Param.USERS, users);
+        return WebUrl.USERS;
     }
 
-    @RequestMapping(value = "/users/email/send", method = RequestMethod.GET)
+    @RequestMapping(value = WebUrl.USERS_EMAIL_SEND, method = RequestMethod.GET)
     @Transactional
     public String usersEmailSend(RedirectAttributes redirectAttributes,
-                                 @RequestParam int id, @RequestParam String emailText) {
+                                 @RequestParam(Param.ID) int id,
+                                 @RequestParam(Param.EMAIL_TEXT) String emailText) {
         User user = userRepository.findById(id);
         user.sendEmail(emailText);
-        redirectAttributes.addFlashAttribute("userLogin", user.getLogin());
-        redirectAttributes.addFlashAttribute("emailText", emailText);
-        return "redirect:/users/email/report";
+        redirectAttributes.addFlashAttribute(Param.USER_LOGIN, user.getLogin());
+        redirectAttributes.addFlashAttribute(Param.EMAIL_TEXT, emailText);
+        return "redirect:" + WebUrl.USERS_EMAIL_REPORT;
     }
 
-    @RequestMapping(value = "/users/email/report", method = RequestMethod.GET)
+    @RequestMapping(value = WebUrl.USERS_EMAIL_REPORT, method = RequestMethod.GET)
     @Transactional
     public String usersEmailReport(Model model) {
-        return "users/email/report";
+        return WebUrl.USERS_EMAIL_REPORT;
     }
 }

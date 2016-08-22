@@ -11,6 +11,14 @@
 
     <artifactId>topaz-datalayer-webapp</artifactId>
 
+    <properties>
+        <!--
+            !Weaving
+            (we need it for correct initialization of @Configurable's dependencies for Spring MVC unit tests)
+        -->
+        <spring.instrument>${org.springframework:spring-instrument:jar}</spring.instrument>
+    </properties>
+
     <profiles>
         <!--
             mvn clean install -P runWebserver
@@ -47,6 +55,32 @@
         </profile>
     </profiles>
 
+    <build>
+        <plugins>
+            <!-- !Weaving -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <version>2.10</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>properties</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>2.10</version>
+                <configuration>
+                    <argLine>-javaagent:${spring.instrument}</argLine>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
     <dependencies>
 
         <!-- Core -->
@@ -82,6 +116,13 @@
             <groupId>org.springframework</groupId>
             <artifactId>spring-webmvc</artifactId>
             <version>${spring.version}</version>
+        </dependency>
+        <dependency>
+            <!-- !Weaving -->
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-instrument</artifactId>
+            <version>${spring.version}</version>
+            <scope>test</scope>
         </dependency>
 
         <!-- Thymeleaf -->
