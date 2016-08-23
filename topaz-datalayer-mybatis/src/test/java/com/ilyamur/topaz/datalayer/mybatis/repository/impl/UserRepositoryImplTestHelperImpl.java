@@ -1,4 +1,4 @@
-package com.ilyamur.topaz.datalayer.testsuite;
+package com.ilyamur.topaz.datalayer.mybatis.repository.impl;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -6,7 +6,8 @@ import static org.junit.Assert.assertNotNull;
 import com.ilyamur.topaz.datalayer.core.entity.Role;
 import com.ilyamur.topaz.datalayer.core.entity.User;
 import com.ilyamur.topaz.datalayer.core.exception.LoginExistsException;
-import com.ilyamur.topaz.datalayer.core.repository.UserRepository;
+import com.ilyamur.topaz.datalayer.mybatis.repository.UserRepository;
+import com.ilyamur.topaz.datalayer.testsuite.ScenarioException;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;

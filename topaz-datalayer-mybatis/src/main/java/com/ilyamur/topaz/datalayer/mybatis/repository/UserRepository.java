@@ -1,4 +1,4 @@
-package com.ilyamur.topaz.datalayer.core.repository;
+package com.ilyamur.topaz.datalayer.mybatis.repository;
 
 import com.ilyamur.topaz.datalayer.core.entity.User;
 import com.ilyamur.topaz.datalayer.core.exception.LoginExistsException;

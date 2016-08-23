@@ -2,7 +2,7 @@ package com.ilyamur.topaz.datalayer.webapp.controller;
 
 
 import com.ilyamur.topaz.datalayer.core.entity.User;
-import com.ilyamur.topaz.datalayer.core.repository.UserRepository;
+import com.ilyamur.topaz.datalayer.core.service.UserService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -19,7 +19,7 @@ import java.util.Collection;
 public class UserController {
 
     @Autowired
-    private UserRepository userRepository;
+    private UserService userService;
 
     public static class Param {
         public static final String ID = "id";
@@ -31,7 +31,7 @@ public class UserController {
     @RequestMapping(value = WebUrl.USERS, method = RequestMethod.GET)
     @Transactional
     public String users(Model model) {
-        Collection<User> users = userRepository.getAll();
+        Collection<User> users = userService.findAll();
         model.addAttribute(Param.USERS, users);
         return WebUrl.USERS;
     }
@@ -41,7 +41,7 @@ public class UserController {
     public String usersEmailSend(RedirectAttributes redirectAttributes,
                                  @RequestParam(Param.ID) int id,
                                  @RequestParam(Param.EMAIL_TEXT) String emailText) {
-        User user = userRepository.findById(id);
+        User user = userService.findById(id);
         user.sendEmail(emailText);
         redirectAttributes.addFlashAttribute(Param.USER_LOGIN, user.getLogin());
         redirectAttributes.addFlashAttribute(Param.EMAIL_TEXT, emailText);

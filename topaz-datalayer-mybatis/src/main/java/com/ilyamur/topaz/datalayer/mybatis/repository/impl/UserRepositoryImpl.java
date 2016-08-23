@@ -3,7 +3,7 @@ package com.ilyamur.topaz.datalayer.mybatis.repository.impl;
 import com.ilyamur.topaz.datalayer.core.entity.Role;
 import com.ilyamur.topaz.datalayer.core.entity.User;
 import com.ilyamur.topaz.datalayer.core.exception.LoginExistsException;
-import com.ilyamur.topaz.datalayer.core.repository.UserRepository;
+import com.ilyamur.topaz.datalayer.mybatis.repository.UserRepository;
 import com.ilyamur.topaz.datalayer.mybatis.mapper.UserMapper;
 
 import com.google.common.collect.Lists;
