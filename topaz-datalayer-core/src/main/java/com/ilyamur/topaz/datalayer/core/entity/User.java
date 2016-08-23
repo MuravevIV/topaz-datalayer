@@ -8,7 +8,7 @@ import com.google.common.base.Objects;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.transaction.annotation.Propagation;
-// import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Convert;
@@ -79,7 +79,7 @@ public class User {
         return email;
     }
 
-    // @Transactional(propagation = Propagation.MANDATORY)
+    //@Transactional//(propagation = Propagation.MANDATORY)
     public void setEmail(String email) {
         this.email = email;
     }
