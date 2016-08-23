@@ -1,7 +1,7 @@
 package com.ilyamur.topaz.datalayer.webapp;
 
 import com.ilyamur.topaz.datalayer.core.CoreConfiguration;
-import com.ilyamur.topaz.datalayer.mybatis.DatalayerConfiguration;
+import com.ilyamur.topaz.datalayer.jpahibernate.DatalayerConfiguration;
 import com.ilyamur.topaz.datalayer.servicelayer.ServicelayerConfiguration;
 
 import org.springframework.beans.factory.annotation.Autowired;

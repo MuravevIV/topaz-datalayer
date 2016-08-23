@@ -21,9 +21,9 @@ Features:
 
 Data layers options:
 
- * Mybatis (default for web application)
+ * Mybatis
  * Hibernate
- * JPA+Hibernate
+ * JPA+Hibernate (default)
 
 Web application:
 
@@ -32,3 +32,11 @@ mvn clean install -P runWebserver
 ```
 
 [http://localhost:8080/users](http://localhost:8080/users)
+
+Gotchas:
+
+ * Use following VM option for external unit testing (fix path, replace ${spring.version}):
+
+```
+-javaagent:\..\.m2\repository\org\springframework\spring-instrument\${spring.version}\spring-instrument-${spring.version}.jar
+```
