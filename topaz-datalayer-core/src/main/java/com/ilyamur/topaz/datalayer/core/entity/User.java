@@ -79,7 +79,7 @@ public class User {
         return email;
     }
 
-    //@Transactional//(propagation = Propagation.MANDATORY)
+    @Transactional(propagation = Propagation.MANDATORY)
     public void setEmail(String email) {
         this.email = email;
     }

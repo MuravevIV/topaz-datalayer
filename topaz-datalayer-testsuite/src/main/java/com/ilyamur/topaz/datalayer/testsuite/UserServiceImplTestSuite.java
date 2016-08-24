@@ -23,7 +23,7 @@ public class UserServiceImplTestSuite {
     }
 
     @Test
-    public void test() {
+    public void changeEmail() {
         userService.changeEmail(0L, "new@mail.com");
     }
 }

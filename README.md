@@ -11,7 +11,7 @@ Philosophy:
 
 Features:
 
- * Aspect-oriented configuration
+ * Annotation-oriented configuration
  * Profiles
  * Mandatory Spring Transaction support
  * Type converters and handlers
