@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE aspectj PUBLIC "-//AspectJ//DTD//EN"    "http://www.eclipse.org/aspectj/dtd/aspectj.dtd">
 <aspectj>
-    <weaver options="-showWeaveInfo -XmessageHandlerClass:org.springframework.aop.aspectj.AspectJWeaverMessageHandler">
+    <weaver options="-Xreweavable">
         <include within="com.ilyamur.topaz.datalayer.core.entity..*"/>
     </weaver>
     <aspects>
         <include within="org.springframework.beans.factory.aspectj.AnnotationBeanConfigurerAspect"/>
+        <include within="org.springframework.transaction.aspectj.AnnotationTransactionAspect"/>
     </aspects>
 </aspectj>

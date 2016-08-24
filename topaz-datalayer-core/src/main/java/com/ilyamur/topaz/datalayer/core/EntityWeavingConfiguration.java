@@ -4,11 +4,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.context.annotation.EnableLoadTimeWeaving;
-import org.springframework.context.annotation.aspectj.EnableSpringConfigured;
 import org.springframework.instrument.classloading.LoadTimeWeaver;
 
 @Configuration
-@EnableSpringConfigured
 @EnableAspectJAutoProxy(proxyTargetClass = true)
 @EnableLoadTimeWeaving(aspectjWeaving = EnableLoadTimeWeaving.AspectJWeaving.ENABLED)
 public class EntityWeavingConfiguration {

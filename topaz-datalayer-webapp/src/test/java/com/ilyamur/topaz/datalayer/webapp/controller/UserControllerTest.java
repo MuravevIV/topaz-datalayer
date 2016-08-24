@@ -23,7 +23,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
-@Ignore
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = {WebappConfiguration.class})
 @WebAppConfiguration
@@ -52,6 +51,7 @@ public class UserControllerTest {
     }
 
     @Test
+    @Ignore // fixme load-time weaving
     public void usersEmailSend() throws Exception {
         String id = "0";
         String login = "John";
