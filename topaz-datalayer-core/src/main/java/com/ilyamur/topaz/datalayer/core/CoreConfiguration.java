@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Import;
 @Configuration
 @ComponentScan
 @Import({
-    EntityWeavingConfiguration.class
+    // EntityWeavingConfiguration.class
 })
 public class CoreConfiguration {
 }
