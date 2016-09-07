@@ -1,12 +1,13 @@
 package com.ilyamur.topaz.datalayer.hibernate;
 
 import org.hibernate.SessionFactory;
+import org.springframework.context.annotation.AdviceMode;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Import;
 import org.springframework.orm.hibernate4.HibernateTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
-@EnableTransactionManagement
+@EnableTransactionManagement(mode = AdviceMode.ASPECTJ)
 @Import({
         HibernateSessionFactoryConfiguration.class
 })

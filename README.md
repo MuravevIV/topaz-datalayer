@@ -11,19 +11,20 @@ Philosophy:
 
 Features:
 
- * Aspect-oriented configuration
+ * Annotation-oriented configuration
  * Profiles
- * Mandatory Spring Transaction support
- * Type converters and handlers
- * Entity-level transparent auto-injection (@Configurable)
+ * Mandatory transaction support (@Transactional)
+ * Domain-level transparent auto-injection (@Configurable)
+ * AspectJ compile-time weaving for aforementioned annotations
+ * ORM type converters and handlers
  * Acceptance tests (HSQLDB)
  * WebMVC tests
 
 Data layers options:
 
- * Mybatis (default for web application)
+ * Mybatis
  * Hibernate
- * JPA+Hibernate
+ * JPA+Hibernate (default)
 
 Web application:
 
@@ -32,3 +33,11 @@ mvn clean install -P runWebserver
 ```
 
 [http://localhost:8080/users](http://localhost:8080/users)
+
+Gotchas:
+
+ * Use following VM option for external unit testing (fix path, replace ${spring.version}):
+
+```
+-javaagent:\..\.m2\repository\org\springframework\spring-instrument\${spring.version}\spring-instrument-${spring.version}.jar
+```

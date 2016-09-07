@@ -1,8 +1,7 @@
 package com.ilyamur.topaz.datalayer.hibernate;
 
-import com.ilyamur.topaz.datalayer.hibernate.util.HibernateStatisticsFactoryBean;
-
 import com.google.common.collect.Maps;
+import com.ilyamur.topaz.datalayer.hibernate.util.HibernateStatisticsFactoryBean;
 import org.hibernate.SessionFactory;
 import org.hibernate.stat.Statistics;
 import org.springframework.context.annotation.Bean;

@@ -1,7 +1,6 @@
 package com.ilyamur.topaz.datalayer.core.service.impl;
 
 import com.ilyamur.topaz.datalayer.core.service.DatabaseInitialization;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +9,6 @@ import org.springframework.jdbc.datasource.init.ResourceDatabasePopulator;
 import org.springframework.stereotype.Component;
 
 import javax.sql.DataSource;
-
 import java.sql.Connection;
 import java.sql.SQLException;
 

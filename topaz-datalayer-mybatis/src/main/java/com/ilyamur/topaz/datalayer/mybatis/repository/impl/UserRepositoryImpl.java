@@ -1,12 +1,11 @@
 package com.ilyamur.topaz.datalayer.mybatis.repository.impl;
 
+import com.google.common.collect.Lists;
 import com.ilyamur.topaz.datalayer.core.entity.Role;
 import com.ilyamur.topaz.datalayer.core.entity.User;
 import com.ilyamur.topaz.datalayer.core.exception.LoginExistsException;
-import com.ilyamur.topaz.datalayer.core.repository.UserRepository;
 import com.ilyamur.topaz.datalayer.mybatis.mapper.UserMapper;
-
-import com.google.common.collect.Lists;
+import com.ilyamur.topaz.datalayer.mybatis.repository.UserRepository;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
@@ -15,7 +14,6 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.PostConstruct;
-
 import java.util.ArrayList;
 import java.util.Collection;
 

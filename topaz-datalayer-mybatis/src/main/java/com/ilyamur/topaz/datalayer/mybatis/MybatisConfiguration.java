@@ -1,7 +1,6 @@
 package com.ilyamur.topaz.datalayer.mybatis;
 
 import com.ilyamur.topaz.datalayer.core.DatabaseTestingConfiguration;
-
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.SqlSessionTemplate;

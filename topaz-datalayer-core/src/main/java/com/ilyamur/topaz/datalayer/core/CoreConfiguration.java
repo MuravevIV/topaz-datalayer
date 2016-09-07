@@ -7,7 +7,8 @@ import org.springframework.context.annotation.Import;
 @Configuration
 @ComponentScan
 @Import({
-    EntityWeavingConfiguration.class
+        AspectJConfiguration.class,
+        DatabaseTestingConfiguration.class
 })
 public class CoreConfiguration {
 }

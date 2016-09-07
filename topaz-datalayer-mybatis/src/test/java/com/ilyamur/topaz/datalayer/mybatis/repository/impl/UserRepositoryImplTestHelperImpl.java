@@ -1,15 +1,12 @@
-package com.ilyamur.topaz.datalayer.testsuite;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-
-import com.ilyamur.topaz.datalayer.core.entity.Role;
-import com.ilyamur.topaz.datalayer.core.entity.User;
-import com.ilyamur.topaz.datalayer.core.exception.LoginExistsException;
-import com.ilyamur.topaz.datalayer.core.repository.UserRepository;
+package com.ilyamur.topaz.datalayer.mybatis.repository.impl;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
+import com.ilyamur.topaz.datalayer.core.entity.Role;
+import com.ilyamur.topaz.datalayer.core.entity.User;
+import com.ilyamur.topaz.datalayer.core.exception.LoginExistsException;
+import com.ilyamur.topaz.datalayer.mybatis.repository.UserRepository;
+import com.ilyamur.topaz.datalayer.testsuite.ScenarioException;
 import org.junit.Ignore;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -19,6 +16,9 @@ import java.time.LocalDate;
 import java.time.Month;
 import java.util.HashSet;
 import java.util.Set;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 @Ignore
 @Component

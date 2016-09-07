@@ -3,7 +3,6 @@ package com.ilyamur.topaz.datalayer.servicelayer.service.impl;
 import com.ilyamur.topaz.datalayer.core.ApplicationProfile;
 import com.ilyamur.topaz.datalayer.core.entity.User;
 import com.ilyamur.topaz.datalayer.servicelayer.ServicelayerConfiguration;
-
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ActiveProfiles;

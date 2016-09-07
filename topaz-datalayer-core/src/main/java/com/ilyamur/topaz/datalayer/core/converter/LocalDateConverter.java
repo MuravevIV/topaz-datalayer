@@ -2,7 +2,6 @@ package com.ilyamur.topaz.datalayer.core.converter;
 
 import javax.persistence.AttributeConverter;
 import javax.persistence.Converter;
-
 import java.sql.Timestamp;
 import java.time.LocalDate;
 
