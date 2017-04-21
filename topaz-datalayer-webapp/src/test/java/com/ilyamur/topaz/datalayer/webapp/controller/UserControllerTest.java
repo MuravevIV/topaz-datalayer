@@ -2,6 +2,7 @@ package com.ilyamur.topaz.datalayer.webapp.controller;
 
 import com.ilyamur.topaz.datalayer.core.ApplicationProfile;
 import com.ilyamur.topaz.datalayer.core.service.DatabaseReset;
+import com.ilyamur.topaz.datalayer.testsuite.TestSuiteConfiguration;
 import com.ilyamur.topaz.datalayer.webapp.Constants;
 import com.ilyamur.topaz.datalayer.webapp.WebappConfiguration;
 import org.junit.Before;
@@ -17,10 +18,13 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.flash;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = {WebappConfiguration.class})
+@ContextConfiguration(classes = {WebappConfiguration.class, TestSuiteConfiguration.class})
 @WebAppConfiguration
 @ActiveProfiles(ApplicationProfile.TESTING)
 public class UserControllerTest {
