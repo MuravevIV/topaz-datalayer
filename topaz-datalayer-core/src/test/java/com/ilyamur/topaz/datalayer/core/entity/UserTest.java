@@ -8,38 +8,48 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.MockitoAnnotations;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.transaction.IllegalTransactionStateException;
 import org.springframework.transaction.annotation.Transactional;
 
 import static org.mockito.Mockito.verify;
 
-@RunWith(MockitoJUnitRunner.class)
+@RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = {CoreConfiguration.class})
 @ActiveProfiles(ApplicationProfile.TESTING)
 public class UserTest {
-
-    private static final String USER_EMAIL = "user@email.com";
-    private static final String EMAIL_TEXT = "Email text.";
 
     @Mock
     private UserMailingService userMailingService;
 
     @InjectMocks
-    private User target;
+    private User target = new User();
 
     @Before
     @Transactional
     public void before() {
-        target.setEmail(USER_EMAIL);
+        target.setEmail("user@email.com");
+        MockitoAnnotations.initMocks(this);
+    }
+
+    @Test(expected = IllegalTransactionStateException.class)
+    public void setEmail_outsideTransaction() {
+        target.setEmail("user@email.com");
     }
 
     @Test
     @Transactional
-    public void sendEmail() {
-        target.sendEmail(EMAIL_TEXT);
+    public void setEmail_insideTransaction() {
+        target.setEmail("user@email.com");
+    }
 
-        verify(userMailingService).sendEmail(USER_EMAIL, EMAIL_TEXT);
+    @Test
+    public void sendEmail() {
+        target.sendEmail("email text");
+
+        verify(userMailingService).sendEmail("user@email.com", "email text");
     }
 }
