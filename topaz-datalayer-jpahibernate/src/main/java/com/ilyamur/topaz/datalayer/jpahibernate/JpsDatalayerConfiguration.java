@@ -1,4 +1,4 @@
-package com.ilyamur.topaz.datalayer.hibernate;
+package com.ilyamur.topaz.datalayer.jpahibernate;
 
 import com.ilyamur.topaz.datalayer.core.CoreConfiguration;
 import org.springframework.context.annotation.ComponentScan;
@@ -9,8 +9,8 @@ import org.springframework.context.annotation.Import;
 @ComponentScan
 @Import({
         CoreConfiguration.class,
-        HibernateConfiguration.class,
-        HibernateTransactionConfiguration.class
+        JpaConfiguration.class,
+        JpaTransactionConfiguration.class
 })
-public class DatalayerConfiguration {
+public class JpsDatalayerConfiguration {
 }

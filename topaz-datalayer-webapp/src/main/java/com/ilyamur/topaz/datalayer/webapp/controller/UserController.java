@@ -3,9 +3,9 @@ package com.ilyamur.topaz.datalayer.webapp.controller;
 
 import com.ilyamur.topaz.datalayer.core.entity.User;
 import com.ilyamur.topaz.datalayer.core.service.UserService;
+import com.ilyamur.topaz.datalayer.webapp.Constants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -20,36 +20,31 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    public static class Param {
-        public static final String ID = "id";
-        public static final String USERS = "users";
-        public static final String USER_LOGIN = "userLogin";
-        public static final String EMAIL_TEXT = "emailText";
+    @RequestMapping(value = Constants.Path.ROOT, method = RequestMethod.GET)
+    public String root() {
+        return Constants.Template.INDEX;
     }
 
-    @RequestMapping(value = WebUrl.USERS, method = RequestMethod.GET)
-    @Transactional
+    @RequestMapping(value = Constants.Path.USERS, method = RequestMethod.GET)
     public String users(Model model) {
         Collection<User> users = userService.findAll();
-        model.addAttribute(Param.USERS, users);
-        return WebUrl.USERS;
+        model.addAttribute(Constants.Param.USERS, users);
+        return Constants.Template.USERS;
     }
 
-    @RequestMapping(value = WebUrl.USERS_EMAIL_SEND, method = RequestMethod.GET)
-    @Transactional
+    @RequestMapping(value = Constants.Path.USERS_EMAIL_SEND, method = RequestMethod.GET)
     public String usersEmailSend(RedirectAttributes redirectAttributes,
-                                 @RequestParam(Param.ID) int id,
-                                 @RequestParam(Param.EMAIL_TEXT) String emailText) {
+                                 @RequestParam(Constants.Param.ID) int id,
+                                 @RequestParam(Constants.Param.EMAIL_TEXT) String emailText) {
         User user = userService.findById(id);
-        user.sendEmail(emailText);
-        redirectAttributes.addFlashAttribute(Param.USER_LOGIN, user.getLogin());
-        redirectAttributes.addFlashAttribute(Param.EMAIL_TEXT, emailText);
-        return "redirect:" + WebUrl.USERS_EMAIL_REPORT;
+        // user.sendEmail(emailText);
+        redirectAttributes.addFlashAttribute(Constants.Param.USER_LOGIN, user.getLogin());
+        redirectAttributes.addFlashAttribute(Constants.Param.EMAIL_TEXT, emailText);
+        return "redirect:" + Constants.Path.USERS_EMAIL_REPORT;
     }
 
-    @RequestMapping(value = WebUrl.USERS_EMAIL_REPORT, method = RequestMethod.GET)
-    @Transactional
-    public String usersEmailReport(Model model) {
-        return WebUrl.USERS_EMAIL_REPORT;
+    @RequestMapping(value = Constants.Path.USERS_EMAIL_REPORT, method = RequestMethod.GET)
+    public String usersEmailReport() {
+        return Constants.Template.USERS_EMAIL_REPORT;
     }
 }

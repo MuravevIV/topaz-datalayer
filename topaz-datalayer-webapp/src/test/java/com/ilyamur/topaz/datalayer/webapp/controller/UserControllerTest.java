@@ -2,6 +2,7 @@ package com.ilyamur.topaz.datalayer.webapp.controller;
 
 import com.ilyamur.topaz.datalayer.core.ApplicationProfile;
 import com.ilyamur.topaz.datalayer.core.service.DatabaseReset;
+import com.ilyamur.topaz.datalayer.webapp.Constants;
 import com.ilyamur.topaz.datalayer.webapp.WebappConfiguration;
 import org.junit.Before;
 import org.junit.Test;
@@ -40,9 +41,9 @@ public class UserControllerTest {
 
     @Test
     public void users() throws Exception {
-        mockMvc.perform(get(WebUrl.USERS))
+        mockMvc.perform(get(Constants.Path.USERS))
                 .andExpect(status().isOk())
-                .andExpect(view().name(WebUrl.USERS));
+                .andExpect(view().name(Constants.Path.USERS));
     }
 
     @Test
@@ -51,11 +52,11 @@ public class UserControllerTest {
         String login = "John";
         String emailText = "test";
 
-        mockMvc.perform(get(WebUrl.USERS_EMAIL_SEND)
-                .param(UserController.Param.ID, id)
-                .param(UserController.Param.EMAIL_TEXT, emailText))
-                .andExpect(redirectedUrl(WebUrl.USERS_EMAIL_REPORT))
-                .andExpect(flash().attribute(UserController.Param.USER_LOGIN, login))
-                .andExpect(flash().attribute(UserController.Param.EMAIL_TEXT, emailText));
+        mockMvc.perform(get(Constants.Path.USERS_EMAIL_SEND)
+                .param(Constants.Param.ID, id)
+                .param(Constants.Param.EMAIL_TEXT, emailText))
+                .andExpect(redirectedUrl(Constants.Path.USERS_EMAIL_REPORT))
+                .andExpect(flash().attribute(Constants.Param.USER_LOGIN, login))
+                .andExpect(flash().attribute(Constants.Param.EMAIL_TEXT, emailText));
     }
 }

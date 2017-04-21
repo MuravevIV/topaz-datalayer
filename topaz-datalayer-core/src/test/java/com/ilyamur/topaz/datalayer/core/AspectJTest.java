@@ -36,10 +36,9 @@ public class AspectJTest {
         target.setEmail(USER_EMAIL);
     }
 
-    @Test
+    @Test(expected = IllegalTransactionStateException.class)
     @Transactional
-    public void sendEmail() {
-        target.setEmail(USER_EMAIL);
+    public void sendEmail_insideTransaction() {
         target.sendEmail(EMAIL_TEXT);
     }
 }

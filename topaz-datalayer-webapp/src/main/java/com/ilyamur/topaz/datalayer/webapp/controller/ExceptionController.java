@@ -1,5 +1,6 @@
 package com.ilyamur.topaz.datalayer.webapp.controller;
 
+import com.ilyamur.topaz.datalayer.webapp.Constants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -16,13 +17,13 @@ public class ExceptionController {
     @ExceptionHandler(NoHandlerFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public String handleNoHandlerFoundException() {
-        return WebUrl.PAGE_NOT_FOUND;
+        return Constants.Template.PAGE_NOT_FOUND;
     }
 
     @ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public String handleException(Exception ex) {
         LOG.error("Internal server error", ex);
-        return WebUrl.SERVER_ERROR;
+        return Constants.Template.SERVER_ERROR;
     }
 }

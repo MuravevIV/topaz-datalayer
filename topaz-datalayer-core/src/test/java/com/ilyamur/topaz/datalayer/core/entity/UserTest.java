@@ -8,15 +8,14 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
 import static org.mockito.Mockito.verify;
 
-@RunWith(SpringJUnit4ClassRunner.class)
+@RunWith(MockitoJUnitRunner.class)
 @ContextConfiguration(classes = {CoreConfiguration.class})
 @ActiveProfiles(ApplicationProfile.TESTING)
 public class UserTest {
@@ -25,16 +24,15 @@ public class UserTest {
     private static final String EMAIL_TEXT = "Email text.";
 
     @Mock
-    UserMailingService userMailingService;
+    private UserMailingService userMailingService;
 
     @InjectMocks
     private User target;
 
     @Before
+    @Transactional
     public void before() {
-        target = new User();
         target.setEmail(USER_EMAIL);
-        MockitoAnnotations.initMocks(this);
     }
 
     @Test
