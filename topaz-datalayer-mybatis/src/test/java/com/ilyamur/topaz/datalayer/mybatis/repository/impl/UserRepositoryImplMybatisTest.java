@@ -9,7 +9,6 @@ import com.ilyamur.topaz.datalayer.core.exception.LoginExistsException;
 import com.ilyamur.topaz.datalayer.core.service.DatabaseReset;
 import com.ilyamur.topaz.datalayer.mybatis.DatalayerConfiguration;
 import com.ilyamur.topaz.datalayer.mybatis.repository.UserRepository;
-import com.ilyamur.topaz.datalayer.testsuite.ScenarioException;
 import com.ilyamur.topaz.datalayer.testsuite.TestSuiteConfiguration;
 import org.junit.Before;
 import org.junit.Test;
@@ -25,7 +24,11 @@ import java.time.Month;
 import java.util.Collection;
 import java.util.HashSet;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = {DatalayerConfiguration.class, TestSuiteConfiguration.class})
@@ -140,38 +143,17 @@ public class UserRepositoryImplMybatisTest {
     @Transactional
     public void saveTwoUsersWithSameLoginSimultaneously_doNotSaveAnyUserAndThrowsLoginExistsException() throws LoginExistsException {
         User userUno = helper.createUser("Uno", ANY_EMAIL, ANY_BIRTHDAY, ANY_ROLES);
-        String sameLogin = "BigBy";
-        User userAbby = helper.createUser(sameLogin, ANY_EMAIL, ANY_BIRTHDAY, ANY_ROLES);
-        User userBrian = helper.createUser(sameLogin, ANY_EMAIL, ANY_BIRTHDAY, ANY_ROLES);
-
         target.save(userUno);
-        LoginExistsException exc = null;
         try {
+            String sameLogin = "BigBy";
+            User userAbby = helper.createUser(sameLogin, ANY_EMAIL, ANY_BIRTHDAY, ANY_ROLES);
+            User userBrian = helper.createUser(sameLogin, ANY_EMAIL, ANY_BIRTHDAY, ANY_ROLES);
             target.saveAll(Lists.newArrayList(userAbby, userBrian));
         } catch (LoginExistsException e) {
-            exc = e;
+            Collection<User> users = target.getAll();
+            assertTrue("User SHOULD be persisted in database", users.contains(userUno));
+            return;
         }
-
-        assertNotNull("LoginExistsException expected", exc);
-        assertEquals(String.format(LoginExistsException.MESSAGE, sameLogin), exc.getMessage());
-        Collection<User> users = target.getAll();
-        assertTrue("User SHOULD be persisted in database", users.contains(userUno));
-    }
-
-    @Test
-    public void saveUsersInNestedExceptionScenario_savesNothing() throws LoginExistsException {
-        int initialCount = helper.getUserCount();
-
-        RuntimeException exc = null;
-        try {
-            helper.nestedExceptionScenario();
-        } catch (ScenarioException e) {
-            exc = e;
-        }
-
-        int afterFailedTransactionCount = helper.getUserCount();
-
-        assertNotNull("ScenarioException expected", exc);
-        assertEquals("User count SHOULD be unchanged", initialCount, afterFailedTransactionCount);
+        fail("LoginExistsException expected" );
     }
 }

@@ -1,12 +1,9 @@
 package com.ilyamur.topaz.datalayer.mybatis.repository.impl;
 
-import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.ilyamur.topaz.datalayer.core.entity.Role;
 import com.ilyamur.topaz.datalayer.core.entity.User;
-import com.ilyamur.topaz.datalayer.core.exception.LoginExistsException;
 import com.ilyamur.topaz.datalayer.mybatis.repository.UserRepository;
-import com.ilyamur.topaz.datalayer.testsuite.ScenarioException;
 import org.junit.Ignore;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -16,9 +13,6 @@ import java.time.LocalDate;
 import java.time.Month;
 import java.util.HashSet;
 import java.util.Set;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
 
 @Ignore
 @Component
@@ -31,36 +25,6 @@ public class UserRepositoryImplTestHelperImpl implements UserRepositoryImplTestS
 
     @Autowired
     private UserRepository target;
-
-    @Override
-    @Transactional
-    public void nestedExceptionScenario() throws LoginExistsException {
-        User userUno = createUser("Uno", ANY_EMAIL, ANY_BIRTHDAY, ANY_ROLES);
-        String sameLogin = "BigBy";
-        User userAbby = createUser(sameLogin, ANY_EMAIL, ANY_BIRTHDAY, ANY_ROLES);
-        User userBrian = createUser(sameLogin, ANY_EMAIL, ANY_BIRTHDAY, ANY_ROLES);
-        int initialSize = getUserCount();
-
-        target.save(userUno);
-
-        int afterFirstSavedSize = getUserCount();
-
-        LoginExistsException exc = null;
-        try {
-            target.saveAll(Lists.newArrayList(userAbby, userBrian));
-        } catch (LoginExistsException e) {
-            exc = e;
-        }
-
-        int afterRestSavedSize = getUserCount();
-
-        assertNotNull("LoginExistsException expected", exc);
-        assertEquals(String.format(LoginExistsException.MESSAGE, sameLogin), exc.getMessage());
-        assertEquals(initialSize + 1, afterFirstSavedSize);
-        assertEquals(initialSize + 1, afterRestSavedSize);
-
-        throw new ScenarioException();
-    }
 
     @Override
     @Transactional

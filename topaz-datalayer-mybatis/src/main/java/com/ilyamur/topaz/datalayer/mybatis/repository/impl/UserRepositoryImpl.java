@@ -34,7 +34,7 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
-    @Transactional(propagation = Propagation.NESTED, rollbackFor = {LoginExistsException.class})
+    @Transactional(rollbackFor = {LoginExistsException.class})
     public User save(User user) throws LoginExistsException {
         if (user != null) {
             try {
@@ -51,7 +51,7 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
-    @Transactional(propagation = Propagation.NESTED, rollbackFor = {LoginExistsException.class})
+    @Transactional(rollbackFor = {LoginExistsException.class})
     public Collection<User> saveAll(Collection<User> users) throws LoginExistsException {
         ArrayList<User> savedUsers = Lists.newArrayList();
         for (User user : users) {

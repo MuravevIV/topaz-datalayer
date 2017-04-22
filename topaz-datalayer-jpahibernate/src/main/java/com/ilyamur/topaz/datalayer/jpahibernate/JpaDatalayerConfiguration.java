@@ -12,5 +12,5 @@ import org.springframework.context.annotation.Import;
         JpaConfiguration.class,
         JpaTransactionConfiguration.class
 })
-public class JpsDatalayerConfiguration {
+public class JpaDatalayerConfiguration {
 }
