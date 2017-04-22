@@ -6,9 +6,6 @@ import org.springframework.context.annotation.Import;
 
 @Configuration
 @ComponentScan
-@Import({
-        AspectJConfiguration.class,
-        DatabaseTestingConfiguration.class
-})
+@Import(AspectJConfiguration.class)
 public class CoreConfiguration {
 }

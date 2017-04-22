@@ -1,5 +1,6 @@
-package com.ilyamur.topaz.datalayer.core;
+package com.ilyamur.topaz.datalayer.testsuite;
 
+import com.ilyamur.topaz.datalayer.core.ApplicationProfile;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Profile;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;

@@ -1,8 +1,7 @@
-package com.ilyamur.topaz.datalayer.core.service.impl;
+package com.ilyamur.topaz.datalayer.servicelayer.service.impl;
 
 import com.ilyamur.topaz.datalayer.core.ApplicationProfile;
 import com.ilyamur.topaz.datalayer.core.service.DatabaseInitialization;
-import com.ilyamur.topaz.datalayer.core.service.DatabaseReset;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,43 +13,31 @@ import org.springframework.stereotype.Component;
 import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.sql.Statement;
 
 @Component
 @Profile({ApplicationProfile.TESTING, ApplicationProfile.DEVELOP})
-public class DatabaseResetImpl implements DatabaseReset {
+public class DatabaseInitializationImpl implements DatabaseInitialization {
 
-    private static final Logger LOG = LoggerFactory.getLogger(DatabaseResetImpl.class);
+    private static final Logger LOG = LoggerFactory.getLogger(DatabaseInitializationImpl.class);
 
-    private static final String DB_INITIAL_SQL = "db/initial.sql";
+    private static final String DB_SCHEMA_SQL = "db/schema.sql";
 
     @Autowired
     private DataSource dataSource;
 
-    @Autowired
-    private DatabaseInitialization databaseInitialization;
-
     @Override
     public void apply() {
         try {
-            cleanup();
-            databaseInitialization.apply();
-            populateWithInitialData();
+            createSchema();
         } catch (SQLException e) {
             LOG.error(e.getMessage(), e);
         }
     }
 
-    private void cleanup() throws SQLException {
-        try (Statement stmt = dataSource.getConnection().createStatement()) {
-            stmt.executeUpdate("DROP SCHEMA PUBLIC CASCADE");
-        }
-    }
-
-    private void populateWithInitialData() throws SQLException {
+    private void createSchema() throws SQLException {
         try (Connection connection = dataSource.getConnection()) {
             ResourceDatabasePopulator populator = new ResourceDatabasePopulator();
-            populator.addScript(new ClassPathResource(DB_INITIAL_SQL));
+            populator.addScript(new ClassPathResource(DB_SCHEMA_SQL));
             populator.populate(connection);
         }
     }

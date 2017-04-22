@@ -6,9 +6,9 @@ import com.ilyamur.topaz.datalayer.core.ApplicationProfile;
 import com.ilyamur.topaz.datalayer.core.entity.Role;
 import com.ilyamur.topaz.datalayer.core.entity.User;
 import com.ilyamur.topaz.datalayer.core.exception.LoginExistsException;
-import com.ilyamur.topaz.datalayer.core.service.DatabaseReset;
 import com.ilyamur.topaz.datalayer.mybatis.DatalayerConfiguration;
 import com.ilyamur.topaz.datalayer.mybatis.repository.UserRepository;
+import com.ilyamur.topaz.datalayer.core.service.DatabaseReset;
 import com.ilyamur.topaz.datalayer.testsuite.TestSuiteConfiguration;
 import org.junit.Before;
 import org.junit.Test;
@@ -154,6 +154,6 @@ public class UserRepositoryImplMybatisTest {
             assertTrue("User SHOULD be persisted in database", users.contains(userUno));
             return;
         }
-        fail("LoginExistsException expected" );
+        fail("LoginExistsException expected");
     }
 }

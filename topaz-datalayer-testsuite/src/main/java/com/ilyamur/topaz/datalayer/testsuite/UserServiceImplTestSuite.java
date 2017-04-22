@@ -1,7 +1,7 @@
 package com.ilyamur.topaz.datalayer.testsuite;
 
-import com.ilyamur.topaz.datalayer.core.service.DatabaseReset;
 import com.ilyamur.topaz.datalayer.core.service.UserService;
+import com.ilyamur.topaz.datalayer.core.service.DatabaseReset;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;

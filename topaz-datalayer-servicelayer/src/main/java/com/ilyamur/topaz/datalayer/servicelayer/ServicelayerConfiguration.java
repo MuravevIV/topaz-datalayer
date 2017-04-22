@@ -7,8 +7,6 @@ import org.springframework.context.annotation.Import;
 
 @Configuration
 @ComponentScan
-@Import({
-        CoreConfiguration.class
-})
+@Import(CoreConfiguration.class)
 public class ServicelayerConfiguration {
 }

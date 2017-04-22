@@ -1,8 +1,6 @@
 package com.ilyamur.topaz.datalayer.jpahibernate;
 
-import com.ilyamur.topaz.datalayer.core.DatabaseTestingConfiguration;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Import;
 import org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
@@ -10,9 +8,6 @@ import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import javax.sql.DataSource;
 import java.util.Properties;
 
-@Import({
-        DatabaseTestingConfiguration.class
-})
 public class JpaConfiguration {
 
     private static final String HIBERNATE_DIALECT = "org.hibernate.dialect.HSQLDialect";
