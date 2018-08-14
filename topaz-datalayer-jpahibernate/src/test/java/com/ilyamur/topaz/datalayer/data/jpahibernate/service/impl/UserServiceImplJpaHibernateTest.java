@@ -1,7 +1,7 @@
-package com.ilyamur.topaz.datalayer.jpahibernate.service.impl;
+package com.ilyamur.topaz.datalayer.data.jpahibernate.service.impl;
 
 import com.ilyamur.topaz.datalayer.core.ApplicationProfile;
-import com.ilyamur.topaz.datalayer.jpahibernate.JpaDatalayerConfiguration;
+import com.ilyamur.topaz.datalayer.data.jpahibernate.JpaDatalayerConfiguration;
 import com.ilyamur.topaz.datalayer.testsuite.TestSuiteConfiguration;
 import com.ilyamur.topaz.datalayer.testsuite.UserServiceImplTestSuite;
 import org.junit.runner.RunWith;

@@ -1,4 +1,4 @@
-package com.ilyamur.topaz.datalayer.jpahibernate;
+package com.ilyamur.topaz.datalayer.data.jpahibernate;
 
 import org.springframework.context.annotation.AdviceMode;
 import org.springframework.context.annotation.Bean;

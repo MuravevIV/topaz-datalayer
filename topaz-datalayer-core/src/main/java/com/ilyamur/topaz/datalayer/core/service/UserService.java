@@ -12,7 +12,12 @@ public interface UserService {
 
     Collection<User> findAll();
 
-    void changeEmail(long id, String newEmail);
-
     void delete(User user);
+
+    /**
+     * Do not conform to the CRUD-repository contract - so defaulted to fail.
+     */
+    default void changeEmail(long id, String newEmail) {
+        throw new UnsupportedOperationException();
+    }
 }

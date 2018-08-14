@@ -1,4 +1,4 @@
-package com.ilyamur.topaz.datalayer.jpahibernate;
+package com.ilyamur.topaz.datalayer.data.jpahibernate;
 
 import com.ilyamur.topaz.datalayer.core.CoreConfiguration;
 import org.springframework.context.annotation.ComponentScan;

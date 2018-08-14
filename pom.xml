@@ -27,7 +27,7 @@
         <guava.version>19.0</guava.version>
         <commons-lang3.version>3.4</commons-lang3.version>
         <commons-io.version>2.5</commons-io.version>
-        <spring.version>4.3.2.RELEASE</spring.version>
+        <spring.version>5.0.8.RELEASE</spring.version>
         <hsqldb.version>2.3.4</hsqldb.version>
 
         <slf4j-api.version>1.7.12</slf4j-api.version>

@@ -1,14 +1,18 @@
-package com.ilyamur.topaz.datalayer.jpahibernate;
+package com.ilyamur.topaz.datalayer.data.jpahibernate;
 
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 
 import javax.sql.DataSource;
 import java.util.Properties;
 
-public class JpaConfiguration {
+@Configuration
+@EnableJpaRepositories
+public class DataJpaConfiguration {
 
     private static final String HIBERNATE_DIALECT = "org.hibernate.dialect.HSQLDialect";
     private static final String HIBERNATE_SHOW_SQL = "true";

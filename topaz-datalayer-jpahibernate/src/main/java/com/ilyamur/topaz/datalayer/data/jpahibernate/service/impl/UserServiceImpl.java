@@ -1,4 +1,4 @@
-package com.ilyamur.topaz.datalayer.jpahibernate.service.impl;
+package com.ilyamur.topaz.datalayer.data.jpahibernate.service.impl;
 
 import com.ilyamur.topaz.datalayer.core.entity.User;
 import com.ilyamur.topaz.datalayer.core.service.UserService;
