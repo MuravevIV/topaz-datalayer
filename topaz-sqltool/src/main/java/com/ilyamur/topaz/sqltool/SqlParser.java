@@ -6,6 +6,7 @@ import org.springframework.stereotype.Component;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 @Component
 public class SqlParser {
@@ -14,20 +15,31 @@ public class SqlParser {
     private static final Pattern LIST_PATTERN = Pattern.compile("<:<([^>]+)>:>");
 
     public ParseResult parse(String sql, Param... params) {
+        List<Param> inputParams = Arrays.asList(params);
         List<Param> parserParams = Lists.newArrayList();
-        String sqlPhase1 = replaceSimpleParams(sql, params, parserParams);
-        String sqlPhase2 = replaceCollectionParams(sqlPhase1, params, parserParams);
+        String sqlPhase1 = replaceSimpleParams(sql, inputParams, parserParams);
+        String sqlPhase2 = replaceCollectionParams(sqlPhase1, inputParams, parserParams);
+
+        StringJoiner notBoundParamNames = new StringJoiner(", ");
+        Set<String> parserParamNames = parserParams.stream().map(Param::getName).collect(Collectors.toSet());
+        for (Param inputParam : inputParams) {
+            if (!parserParamNames.contains(inputParam.getName())) {
+                notBoundParamNames.add(inputParam.getName());
+            }
+        }
+        if (!notBoundParamNames.toString().isEmpty()) {
+            throw new RuntimeException("Parameter(s) not bound: " + notBoundParamNames.toString());
+        }
+
         return new ParseResult(sqlPhase2, parserParams);
     }
 
-    private String replaceSimpleParams(String sql, Param[] params, List<Param> parserParams) {
+    private String replaceSimpleParams(String sql, List<Param> inputParams, List<Param> parserParams) {
         Matcher m = SIMPLE_PATTERN.matcher(sql);
         StringBuffer sb = new StringBuffer();
         while (m.find()) {
             String paramName = m.group(1);
-
-            Optional<Param> optParam = Arrays.stream(params).filter(p -> p.getName().equals(paramName)).findFirst();
-
+            Optional<Param> optParam = inputParams.stream().filter(p -> p.getName().equals(paramName)).findFirst();
             if (!optParam.isPresent()) {
                 throw new RuntimeException("Parameter expected but not found: " + paramName);
             }
@@ -38,12 +50,12 @@ public class SqlParser {
         return sb.toString();
     }
 
-    private String replaceCollectionParams(String sql, Param[] params, List<Param> parserParams) {
+    private String replaceCollectionParams(String sql, List<Param> inputParams, List<Param> parserParams) {
         Matcher m = LIST_PATTERN.matcher(sql);
         StringBuffer sb = new StringBuffer();
         while (m.find()) {
             String paramName = m.group(1);
-            Optional<Param> optParam = Arrays.stream(params).filter(p -> p.getName().equals(paramName)).findFirst();
+            Optional<Param> optParam = inputParams.stream().filter(p -> p.getName().equals(paramName)).findFirst();
             if (!optParam.isPresent()) {
                 throw new RuntimeException("Parameter expected but not found: " + paramName);
             }
@@ -56,7 +68,7 @@ public class SqlParser {
             StringJoiner stringJoiner = new StringJoiner(", ");
             for (Object paramPart : paramList) {
                 stringJoiner.add("?");
-                parserParams.add(Param.of(null, paramPart));
+                parserParams.add(Param.of(paramName, paramPart));
             }
             m.appendReplacement(sb, stringJoiner.toString());
         }

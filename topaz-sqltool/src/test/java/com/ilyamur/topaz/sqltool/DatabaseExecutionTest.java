@@ -77,13 +77,29 @@ public class DatabaseExecutionTest {
     }
 
     @Test
-    public void testExecuteWithUselessParam() {
-        // todo expected exception
+    public void testExecute_whenOneUselessParam() {
+        expectedException.expect(RuntimeException.class);
+        expectedException.expectMessage(containsString("Parameter(s) not bound: bill_no"));
 
         Database mainDatabase = new Database(dataSource);
         String sql = "SELECT id_agree, id_bill, bill_no, bill_sum FROM bills WHERE bill_no = '38001014'";
 
         BillEntity bill = mainDatabase.execute(sql, Param.of("bill_no", "38001014")).asSingle(BillEntity.class);
+
+        assertNotNull(bill);
+    }
+
+    @Test
+    public void testExecute_whenSeveralUselessParam() {
+        expectedException.expect(RuntimeException.class);
+        expectedException.expectMessage(containsString("Parameter(s) not bound: bill_no, id_agree"));
+
+        Database mainDatabase = new Database(dataSource);
+        String sql = "SELECT id_agree, id_bill, bill_no, bill_sum FROM bills WHERE bill_no = '38001014'";
+
+        BillEntity bill = mainDatabase
+                .execute(sql, Param.of("bill_no", "38001014"), Param.of("id_agree", 1))
+                .asSingle(BillEntity.class);
 
         assertNotNull(bill);
     }
