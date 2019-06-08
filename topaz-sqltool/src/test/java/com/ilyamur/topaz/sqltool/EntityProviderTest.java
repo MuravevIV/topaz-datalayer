@@ -41,7 +41,7 @@ public class EntityProviderTest {
         String sql = "SELECT * FROM dual";
         Mapper<EntityDual> mapper = new Mapper<EntityDual>() {
             @Override
-            EntityDual applyMapper(ResultSet resultSet) throws SQLException {
+            public EntityDual applyMapper(ResultSet resultSet) throws SQLException {
                 EntityDual entityDual = new EntityDual();
                 entityDual.setX(resultSet.getInt("x"));
                 return entityDual;

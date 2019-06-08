@@ -16,6 +16,7 @@ public class DatabaseTestingConfiguration {
                 .setType(EmbeddedDatabaseType.HSQL)
                 .addScript("classpath:db/schema.sql")
                 .addScript("classpath:db/dual.sql")
+                .addScript("classpath:db/bills.sql")
                 .build();
     }
 }

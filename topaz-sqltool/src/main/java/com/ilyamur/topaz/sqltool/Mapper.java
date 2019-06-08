@@ -4,7 +4,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.function.Function;
 
-abstract class Mapper<T> implements Function<ResultSet, T> {
+public abstract class Mapper<T> implements Function<ResultSet, T> {
 
     @Override
     public T apply(ResultSet resultSet) {
@@ -15,5 +15,5 @@ abstract class Mapper<T> implements Function<ResultSet, T> {
         }
     }
 
-    abstract T applyMapper(ResultSet resultSet) throws SQLException;
+    public abstract T applyMapper(ResultSet resultSet) throws SQLException;
 }
