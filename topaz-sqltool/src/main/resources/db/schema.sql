@@ -1,0 +1,4 @@
+
+CREATE TABLE PUBLIC.dual (
+    x INT NOT NULL
+);
