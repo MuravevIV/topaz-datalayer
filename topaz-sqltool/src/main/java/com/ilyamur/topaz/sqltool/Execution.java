@@ -49,4 +49,12 @@ public class Execution {
         }
         return list.get(0);
     }
+
+    public List<ComplexResult> asManyComplexResult() {
+        return asMany(ComplexResult.class);
+    }
+
+    public ComplexResult asSingleComplexResult() {
+        return asSingle(ComplexResult.class);
+    }
 }

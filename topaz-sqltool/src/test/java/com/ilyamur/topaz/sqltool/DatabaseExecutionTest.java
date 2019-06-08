@@ -1,7 +1,6 @@
 package com.ilyamur.topaz.sqltool;
 
 import com.ilyamur.topaz.sqltool.entity.BillEntity;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -95,5 +94,20 @@ public class DatabaseExecutionTest {
                 .asSingle(Long.class);
 
         assertEquals(1, (long) one);
+    }
+
+    @Test
+    public void testExecute_whenComplexResult() throws SQLException {
+        Database mainDatabase = new Database(dataSource);
+
+        ComplexResult complexResult = mainDatabase
+                .execute("SELECT 1 AS one, 'two' AS two FROM dual")
+                .asSingleComplexResult();
+
+        Integer one = complexResult.getInt("one");
+        String two = complexResult.getString("two");
+
+        assertEquals(1, (int) one);
+        assertEquals("two", two);
     }
 }
