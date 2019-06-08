@@ -17,6 +17,7 @@ public class DatabaseTestingConfiguration {
                 .addScript("classpath:db/schema.sql")
                 .addScript("classpath:db/dual.sql")
                 .addScript("classpath:db/bills.sql")
+                .addScript("classpath:db/test_tables_schema.sql")
                 .build();
     }
 }

@@ -29,6 +29,15 @@ public class EntityProvider {
         return entities;
     }
 
+    public int updateEntities(DataSource dataSource, String sql, List<Param> paramList) throws SQLException {
+        try (Connection connection = dataSource.getConnection()) {
+            try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+                setParams(preparedStatement, paramList);
+                return preparedStatement.executeUpdate();
+            }
+        }
+    }
+
     private void setParams(PreparedStatement preparedStatement, List<Param> paramList) throws SQLException {
         for (int i = 0; i < paramList.size(); i++) {
             Param param = paramList.get(i);

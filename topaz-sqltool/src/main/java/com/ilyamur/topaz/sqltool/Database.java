@@ -6,8 +6,6 @@ import org.springframework.stereotype.Component;
 
 import javax.sql.DataSource;
 import java.sql.SQLException;
-import java.util.List;
-import java.util.function.Function;
 
 @Component
 @Configurable
@@ -25,7 +23,7 @@ public class Database {
         this.dataSource = dataSource;
     }
 
-    public Execution execute(String sql, Param ... params) {
+    public Execution execute(String sql, Param... params) {
         ParseResult parseResult = sqlParser.parse(sql, params);
         return new Execution(mapper -> {
             try {
@@ -34,5 +32,15 @@ public class Database {
                 throw new RuntimeException(e);
             }
         });
+    }
+
+    public UpdateResult update(String sql, Param... params) {
+        ParseResult parseResult = sqlParser.parse(sql, params);
+        try {
+            int updateCount = entityProvider.updateEntities(dataSource, parseResult.getSql(), parseResult.getParams());
+            return new UpdateResult(updateCount);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
