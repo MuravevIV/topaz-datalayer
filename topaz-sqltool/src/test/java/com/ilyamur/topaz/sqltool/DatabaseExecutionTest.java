@@ -132,7 +132,7 @@ public class DatabaseExecutionTest {
     }
 
     @Test
-    public void testExecute_whenComplexResult() {
+    public void testExecute_whenComplexResultAccessedByName() {
         Database mainDatabase = new Database(dataSource);
 
         ComplexResult complexResult = mainDatabase
@@ -141,6 +141,21 @@ public class DatabaseExecutionTest {
 
         Integer one = complexResult.getInt("one");
         String two = complexResult.getString("two");
+
+        assertEquals(1, (int) one);
+        assertEquals("two", two);
+    }
+
+    @Test
+    public void testExecute_whenComplexResultAccessedByPos() {
+        Database mainDatabase = new Database(dataSource);
+
+        ComplexResult complexResult = mainDatabase
+                .execute("SELECT 1 AS one, 'two' AS two FROM dual")
+                .asSingleComplexResult();
+
+        Integer one = complexResult.getInt(1);
+        String two = complexResult.getString(2);
 
         assertEquals(1, (int) one);
         assertEquals("two", two);
