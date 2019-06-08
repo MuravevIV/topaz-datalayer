@@ -10,6 +10,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import javax.sql.DataSource;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Collections;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
@@ -48,7 +49,7 @@ public class EntityProviderTest {
             }
         };
 
-        List<EntityDual> entityDualList = entityProvider.getEntities(dataSource, sql, mapper);
+        List<EntityDual> entityDualList = entityProvider.getEntities(dataSource, mapper, sql, Collections.emptyList());
 
         assertEquals(1, entityDualList.size());
         assertEquals(1, (int) entityDualList.get(0).x);

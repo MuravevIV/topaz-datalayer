@@ -13,10 +13,11 @@ import java.util.List;
 @Component
 public class EntityProvider {
 
-    public <T> List<T> getEntities(DataSource dataSource, String sql, Mapper<T> mapper) throws SQLException {
+    public <T> List<T> getEntities(DataSource dataSource, Mapper<T> mapper, String sql, List<Param> paramList) throws SQLException {
         List<T> entities = Lists.newArrayList();
         try (Connection connection = dataSource.getConnection()) {
             try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+                setParams(preparedStatement, paramList);
                 try (ResultSet resultSet = preparedStatement.executeQuery()) {
                     while (resultSet.next()) {
                         T entityDual = mapper.applyMapper(resultSet);
@@ -26,5 +27,12 @@ public class EntityProvider {
             }
         }
         return entities;
+    }
+
+    private void setParams(PreparedStatement preparedStatement, List<Param> paramList) throws SQLException {
+        for (int i = 0; i < paramList.size(); i++) {
+            Param param = paramList.get(i);
+            preparedStatement.setObject(i + 1, param.getValue());
+        }
     }
 }

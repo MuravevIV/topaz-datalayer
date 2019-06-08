@@ -54,13 +54,34 @@ public class DatabaseExecutionTest {
         assertNotNull(bill);
     }
 
-    @Ignore // todo unignore
     @Test
     public void testExecuteWithParam() throws SQLException {
         Database mainDatabase = new Database(dataSource);
         String sql = "SELECT id_agree, id_bill, bill_no, bill_sum FROM bills WHERE bill_no = <<bill_no>>";
 
         BillEntity bill = mainDatabase.execute(sql, Param.of("bill_no", "38001014")).asSingle(BillEntity.class);
+
+        assertNotNull(bill);
+    }
+
+    @Test
+    public void testExecuteWithTwoSameParams() throws SQLException {
+        Database mainDatabase = new Database(dataSource);
+        String sql = "SELECT id_agree, id_bill, bill_no, bill_sum FROM bills WHERE bill_no = <<bill_no>> AND bill_no = <<bill_no>>";
+
+        BillEntity bill = mainDatabase.execute(sql, Param.of("bill_no", "38001014")).asSingle(BillEntity.class);
+
+        assertNotNull(bill);
+    }
+
+    @Test
+    public void testExecuteWithTwoDifferentParams() throws SQLException {
+        Database mainDatabase = new Database(dataSource);
+        String sql = "SELECT <<id_agree>> AS id_agree, id_bill, bill_no, bill_sum FROM bills WHERE bill_no = <<bill_no>> AND bill_no = <<bill_no>>";
+
+        BillEntity bill = mainDatabase
+                .execute(sql, Param.of("bill_no", "38001014"), Param.of("id_agree", 1))
+                .asSingle(BillEntity.class);
 
         assertNotNull(bill);
     }
