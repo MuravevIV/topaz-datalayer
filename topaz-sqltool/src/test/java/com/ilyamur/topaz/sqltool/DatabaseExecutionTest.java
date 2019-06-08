@@ -1,6 +1,7 @@
 package com.ilyamur.topaz.sqltool;
 
 import com.ilyamur.topaz.sqltool.entity.BillEntity;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,7 +45,7 @@ public class DatabaseExecutionTest {
     }
 
     @Test
-    public void testExecuteWithParams() throws SQLException {
+    public void testExecuteWithUselessParam() throws SQLException {
         Database mainDatabase = new Database(dataSource);
         String sql = "SELECT id_agree, id_bill, bill_no, bill_sum FROM bills";
 
@@ -53,4 +54,14 @@ public class DatabaseExecutionTest {
         assertNotNull(bill);
     }
 
+    @Ignore // todo unignore
+    @Test
+    public void testExecuteWithParam() throws SQLException {
+        Database mainDatabase = new Database(dataSource);
+        String sql = "SELECT id_agree, id_bill, bill_no, bill_sum FROM bills WHERE bill_no = <<bill_no>>";
+
+        BillEntity bill = mainDatabase.execute(sql, Param.of("bill_no", "38001014")).asSingle(BillEntity.class);
+
+        assertNotNull(bill);
+    }
 }
