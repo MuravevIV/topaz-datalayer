@@ -1,6 +1,5 @@
 package com.ilyamur.topaz.sqltool;
 
-import com.google.common.collect.Lists;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -8,12 +7,6 @@ import org.junit.runner.RunWith;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.junit.Assert.assertEquals;
@@ -72,53 +65,5 @@ public class SqlParserTest {
         Param paramB = parseResult.getParams().get(1);
         assertEquals("b", paramB.getName());
         assertEquals(2, paramB.getValue());
-    }
-
-    public static class SqlParser {
-
-        Pattern PATTERN = Pattern.compile("<<([^>]+)>>");
-
-        public ParseResult parse(String sql, Param ... params) {
-            List<Param> parserParams = Lists.newArrayList();
-
-            Matcher m = PATTERN.matcher(sql);
-
-            StringBuffer sb = new StringBuffer();
-            while(m.find()) {
-                String paramName = m.group(1);
-
-                Optional<Param> optParam = Arrays.stream(params).filter(p -> p.getName().equals(paramName)).findFirst();
-
-                if (!optParam.isPresent()) {
-                    throw new RuntimeException("Parameter expected but not found: " + paramName);
-                }
-                parserParams.add(optParam.get());
-                m.appendReplacement(sb, "?");
-            }
-            m.appendTail(sb);
-
-            return new ParseResult(sb.toString(), parserParams);
-        }
-
-        //
-    }
-
-    public static class ParseResult {
-
-        private String sql;
-        private List<Param> params;
-
-        public ParseResult(String sql, List<Param> params) {
-            this.sql = sql;
-            this.params = params;
-        }
-
-        public String getSql() {
-            return sql;
-        }
-
-        public List<Param> getParams() {
-            return params;
-        }
     }
 }
