@@ -43,9 +43,9 @@ public class Execution {
     public <T> T asSingle(Class<T> c) {
         List<T> list = asMany(c);
         if (list.isEmpty()) {
-            throw new RuntimeException(); // todo specify
+            throw new RuntimeException("Single result is requested, but none results are returned");
         } else if (list.size() > 1) {
-            throw new RuntimeException(); // todo specify
+            throw new RuntimeException("Single result is requested, but many results are returned");
         }
         return list.get(0);
     }

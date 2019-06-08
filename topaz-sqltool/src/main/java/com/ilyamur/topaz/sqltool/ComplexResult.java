@@ -35,6 +35,21 @@ public class ComplexResult {
         content.add(item);
     }
 
+    private Object getObject(String columnName) {
+        return content.stream()
+                .filter(it -> it.getColumnName().equalsIgnoreCase(columnName))
+                .findFirst()
+                .map(Item::getContent).orElse(null);
+    }
+
+    public Integer getInt(String columnName) {
+        return (Integer) getObject(columnName);
+    }
+
+    public String getString(String columnName) {
+        return (String) getObject(columnName);
+    }
+
     public static Mapper<ComplexResult> getMapper() {
         return new Mapper<ComplexResult>() {
             @Override
@@ -50,20 +65,5 @@ public class ComplexResult {
                 return complexResult;
             }
         };
-    }
-
-    private Object getObject(String columnName) {
-        return content.stream()
-                .filter(it -> it.getColumnName().equalsIgnoreCase(columnName))
-                .findFirst()
-                .map(Item::getContent).orElse(null);
-    }
-
-    public Integer getInt(String columnName) {
-        return (Integer) getObject(columnName);
-    }
-
-    public String getString(String columnName) {
-        return (String) getObject(columnName);
     }
 }
