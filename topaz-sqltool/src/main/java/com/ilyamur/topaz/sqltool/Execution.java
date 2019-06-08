@@ -2,6 +2,8 @@ package com.ilyamur.topaz.sqltool;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.function.Function;
 
@@ -14,7 +16,17 @@ public class Execution {
     }
 
     public <T> List<T> asMany(Class<T> c) {
-        Mapper<T> mapper = getClassMapper(c);
+        Mapper<?> mapper;
+        if (c.isAssignableFrom(Long.class)) {
+            mapper = new Mapper<Long>() {
+                @Override
+                public Long applyMapper(ResultSet resultSet) throws SQLException {
+                    return resultSet.getLong(1);
+                }
+            };
+        } else {
+            mapper = getClassMapper(c);
+        }
         return (List<T>) mappingFunction.apply(mapper);
     }
 

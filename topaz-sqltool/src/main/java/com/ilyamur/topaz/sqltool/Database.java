@@ -25,18 +25,14 @@ public class Database {
         this.dataSource = dataSource;
     }
 
-    public Execution execute(String sql, Param ... params) throws SQLException {
-
+    public Execution execute(String sql, Param ... params) {
         ParseResult parseResult = sqlParser.parse(sql, params);
-
-        Function<Mapper<?>, List<?>> mappingFunction = mapper -> {
+        return new Execution(mapper -> {
             try {
                 return entityProvider.getEntities(dataSource, mapper, parseResult.getSql(), parseResult.getParams());
             } catch (SQLException e) {
                 throw new RuntimeException(e);
             }
-        };
-
-        return new Execution(mappingFunction);
+        });
     }
 }

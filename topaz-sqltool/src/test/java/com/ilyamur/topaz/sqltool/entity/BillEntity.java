@@ -7,10 +7,10 @@ import java.math.BigDecimal;
 
 public class BillEntity {
 
-    int idBill;
-    int idAgree;
-    String billNo;
-    BigDecimal billSum;
+    private int idBill;
+    private int idAgree;
+    private String billNo;
+    private BigDecimal billSum;
 
     public void setIdBill(int idBill) {
         this.idBill = idBill;

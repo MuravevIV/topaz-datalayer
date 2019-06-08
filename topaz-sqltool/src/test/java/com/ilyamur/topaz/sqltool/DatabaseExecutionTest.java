@@ -85,4 +85,15 @@ public class DatabaseExecutionTest {
 
         assertNotNull(bill);
     }
+
+    @Test
+    public void testExecute_whenPrimitiveResult() throws SQLException {
+        Database mainDatabase = new Database(dataSource);
+
+        Long one = mainDatabase
+                .execute("SELECT 1 FROM dual")
+                .asSingle(Long.class);
+
+        assertEquals(1, (long) one);
+    }
 }
