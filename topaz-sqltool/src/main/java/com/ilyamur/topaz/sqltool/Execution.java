@@ -24,6 +24,13 @@ public class Execution {
                     return resultSet.getLong(1);
                 }
             };
+        } else if (c.isAssignableFrom(String.class)) {
+            mapper = new Mapper<String>() {
+                @Override
+                public String applyMapper(ResultSet resultSet) throws SQLException {
+                    return resultSet.getString(1);
+                }
+            };
         } else {
             mapper = getClassMapper(c);
         }

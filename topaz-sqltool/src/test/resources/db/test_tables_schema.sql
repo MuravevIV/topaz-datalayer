@@ -2,3 +2,7 @@
 CREATE TABLE PUBLIC.test_1 (
     dummy VARCHAR(80) NOT NULL
 );
+
+CREATE TABLE PUBLIC.test_2 (
+    dummy VARCHAR(80) NOT NULL
+);

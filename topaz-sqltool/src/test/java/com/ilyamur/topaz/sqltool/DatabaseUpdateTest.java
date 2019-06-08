@@ -1,5 +1,6 @@
 package com.ilyamur.topaz.sqltool;
 
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -24,12 +25,33 @@ public class DatabaseUpdateTest {
     @Autowired
     private DataSource dataSource;
 
-    @Test
-    public void testUpdate() {
-        Database mainDatabase = new Database(dataSource);
+    private Database database;
 
-        UpdateResult updateResult = mainDatabase.update("INSERT INTO test_1 (dummy) VALUES ('test')");
+    @Before
+    public void before() {
+        database = new Database(dataSource);
+    }
+
+    @Test
+    public void testUpdate_thenSelect() {
+
+        UpdateResult updateResult = database.update("INSERT INTO test_1 (dummy) VALUES ('example_1')");
+
+        String text = database.execute("SELECT dummy FROM test_1").asSingle(String.class);
 
         assertEquals(1, updateResult.getCount());
+        assertEquals("example_1", text);
+    }
+
+    @Test
+    public void testUpdate_whenParamDefined() {
+
+        UpdateResult updateResult = database
+                .update("INSERT INTO test_2 (dummy) VALUES (<<text>>)", Param.of("text", "example_2"));
+
+        String text = database.execute("SELECT dummy FROM test_2").asSingle(String.class);
+
+        assertEquals(1, updateResult.getCount());
+        assertEquals("example_2", text);
     }
 }
