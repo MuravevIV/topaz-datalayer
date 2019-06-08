@@ -58,6 +58,22 @@ public class SqlParserTest {
         assertEquals(1, param.getValue());
     }
 
+    @Test
+    public void testParse_whenTwoParams() {
+        SqlParser parser = new SqlParser();
+
+        ParseResult parseResult = parser.parse("SELECT <<a>>, <<b>> FROM dual", Param.of("b", 2), Param.of("a", 1));
+
+        assertEquals("SELECT ?, ? FROM dual", parseResult.getSql());
+        assertEquals(2, parseResult.getParams().size());
+        Param paramA = parseResult.getParams().get(0);
+        assertEquals("a", paramA.getName());
+        assertEquals(1, paramA.getValue());
+        Param paramB = parseResult.getParams().get(1);
+        assertEquals("b", paramB.getName());
+        assertEquals(2, paramB.getValue());
+    }
+
     public static class SqlParser {
 
         Pattern PATTERN = Pattern.compile("<<([^>]+)>>");
