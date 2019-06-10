@@ -8,7 +8,7 @@ import java.sql.Connection;
 import java.sql.SQLException;
 
 @Configurable
-public class Transaction {
+public class Transaction implements AutoCloseable {
 
     @Autowired
     private EntityProvider entityProvider;
@@ -31,5 +31,26 @@ public class Transaction {
                 throw new RuntimeException(e);
             }
         });
+    }
+
+    @Override
+    public void close() {
+        Connection connection;
+        try {
+            connection = dataSource.getConnection();
+        } catch (SQLException e) {
+            // todo log error message
+            return; // ignore
+        }
+        try {
+            connection.rollback();
+        } catch (Exception e) {
+            // todo log error message
+        }
+        try {
+            connection.close();
+        } catch (Exception e) {
+            // todo log error message
+        }
     }
 }

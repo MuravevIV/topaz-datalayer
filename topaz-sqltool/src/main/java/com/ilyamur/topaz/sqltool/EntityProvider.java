@@ -15,14 +15,13 @@ public class EntityProvider {
 
     public <T> List<T> getEntities(DataSource dataSource, Mapper<T> mapper, String sql, List<Param> paramList) throws SQLException {
         List<T> entities = Lists.newArrayList();
-        try (Connection connection = dataSource.getConnection()) {
-            try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-                setParams(preparedStatement, paramList);
-                try (ResultSet resultSet = preparedStatement.executeQuery()) {
-                    while (resultSet.next()) {
-                        T entityDual = mapper.applyMapper(resultSet);
-                        entities.add(entityDual);
-                    }
+        Connection connection = dataSource.getConnection();
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            setParams(preparedStatement, paramList);
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                while (resultSet.next()) {
+                    T entityDual = mapper.applyMapper(resultSet);
+                    entities.add(entityDual);
                 }
             }
         }

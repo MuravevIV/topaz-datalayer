@@ -2,7 +2,6 @@ package com.ilyamur.topaz.sqltool;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Configurable;
-import org.springframework.stereotype.Component;
 
 import javax.sql.DataSource;
 import java.sql.SQLException;
@@ -43,7 +42,11 @@ public class Database {
         }
     }
 
-    public Transaction startTransaction() throws SQLException {
-        return new Transaction(dataSource.getConnection());
+    public Transaction startTransaction() {
+        try {
+            return new Transaction(dataSource.getConnection());
+        } catch (SQLException e) {
+            throw new RuntimeException(e); //todo specify
+        }
     }
 }
