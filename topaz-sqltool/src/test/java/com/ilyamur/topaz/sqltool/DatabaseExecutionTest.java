@@ -30,7 +30,7 @@ public class DatabaseExecutionTest {
     @Autowired
     private DataSource dataSource;
 
-    Database database;
+    private Database database;
 
     @Before
     public void before() {

@@ -2,15 +2,13 @@ package com.ilyamur.topaz.sqltool;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Configurable;
-import org.springframework.stereotype.Component;
 
 import javax.sql.DataSource;
+import java.sql.Connection;
 import java.sql.SQLException;
 
 @Configurable
-public class Database {
-
-    private DataSource dataSource;
+public class Transaction {
 
     @Autowired
     private EntityProvider entityProvider;
@@ -18,8 +16,10 @@ public class Database {
     @Autowired
     private SqlParser sqlParser;
 
-    public Database(DataSource dataSource) {
-        this.dataSource = dataSource;
+    private DataSource dataSource;
+
+    public Transaction(Connection connection) {
+        this.dataSource = new ConnectionWrappingDataSource(connection);
     }
 
     public Execution execute(String sql, Param... params) {
@@ -31,19 +31,5 @@ public class Database {
                 throw new RuntimeException(e);
             }
         });
-    }
-
-    public UpdateResult update(String sql, Param... params) {
-        ParseResult parseResult = sqlParser.parse(sql, params);
-        try {
-            int updateCount = entityProvider.updateEntities(dataSource, parseResult.getSql(), parseResult.getParams());
-            return new UpdateResult(updateCount);
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    public Transaction startTransaction() throws SQLException {
-        return new Transaction(dataSource.getConnection());
     }
 }
