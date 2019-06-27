@@ -49,4 +49,8 @@ public class Database {
             throw new RuntimeException(e); //todo specify
         }
     }
+
+    public BatchUpdate batchUpdate(String sql) {
+        return new BatchUpdate(dataSource, sql);
+    }
 }

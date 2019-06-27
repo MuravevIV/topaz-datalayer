@@ -19,7 +19,7 @@ public class Transaction implements AutoCloseable {
     private DataSource dataSource;
 
     public Transaction(Connection connection) {
-        this.dataSource = new ConnectionWrappingDataSource(connection);
+        dataSource = new ConnectionWrappingDataSource(connection);
     }
 
     public Execution execute(String sql, Param... params) {
