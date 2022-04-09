@@ -21,13 +21,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    @Transactional
     public User findById(long id) {
-        return (User) getSession().get(User.class, id);
+        return getSession().get(User.class, id);
     }
 
     @Override
-    @Transactional
     public User findByLogin(String login) {
         return (User) getSession().createQuery(
                 "from User where login = :login")
@@ -36,7 +34,6 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    @Transactional
     @SuppressWarnings("unchecked")
     public Collection<User> findAll() {
         return getSession().createQuery("from User").list();

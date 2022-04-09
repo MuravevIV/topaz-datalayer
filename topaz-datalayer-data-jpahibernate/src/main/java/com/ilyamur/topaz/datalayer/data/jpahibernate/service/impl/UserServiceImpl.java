@@ -5,6 +5,7 @@ import com.ilyamur.topaz.datalayer.core.entity.User;
 import com.ilyamur.topaz.datalayer.core.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collection;
 
@@ -33,11 +34,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional
     public void delete(User user) {
         crudRepository.delete(user);
     }
 
     @Override
+    @Transactional
     public void changeEmail(long id, String newEmail) {
         User user = crudRepository.findById(id);
         user.setEmail(newEmail);

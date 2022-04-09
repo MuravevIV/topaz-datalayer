@@ -37,7 +37,7 @@ public class UserController {
                                  @RequestParam(Constants.Param.ID) int id,
                                  @RequestParam(Constants.Param.EMAIL_TEXT) String emailText) {
         User user = userService.findById(id);
-        // user.sendEmail(emailText);
+        user.sendEmail(emailText);
         redirectAttributes.addFlashAttribute(Constants.Param.USER_LOGIN, user.getLogin());
         redirectAttributes.addFlashAttribute(Constants.Param.EMAIL_TEXT, emailText);
         return "redirect:" + Constants.Path.USERS_EMAIL_REPORT;

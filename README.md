@@ -24,7 +24,8 @@ Data layers options:
 
  * Mybatis
  * Hibernate
- * JPA+Hibernate (default)
+ * JPA + Hibernate
+ * Spring-Data-JPA + Hibernate (default for web application)
 
 Web application:
 
@@ -32,4 +33,6 @@ Web application:
 mvn clean install -P runWebserver
 ```
 
-[http://localhost:8080/users](http://localhost:8080/users)
+ * [http://localhost:8080/users](http://localhost:8080/users)
+ * [http://localhost:8080/users/email/send?id=0&emailText=test](http://localhost:8080/users/email/send?id=0&emailText=test)
+

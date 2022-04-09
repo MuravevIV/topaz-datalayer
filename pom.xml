@@ -15,6 +15,7 @@
         <module>topaz-datalayer-hibernate</module>
         <module>topaz-datalayer-testsuite</module>
         <module>topaz-datalayer-jpahibernate</module>
+        <module>topaz-datalayer-data-jpahibernate</module>
         <module>topaz-datalayer-webapp</module>
         <module>topaz-datalayer-servicelayer</module>
     </modules>
