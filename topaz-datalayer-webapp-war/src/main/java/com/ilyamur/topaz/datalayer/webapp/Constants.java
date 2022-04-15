@@ -21,12 +21,12 @@ public class Constants {
 
     public static class Template {
 
-        public static final String INDEX = "/index";
+        public static final String INDEX = "index";
 
-        public static final String USERS = "/users";
-        public static final String USERS_EMAIL_REPORT = "/users/email/report";
+        public static final String USERS = "users";
+        public static final String USERS_EMAIL_REPORT = "users/email/report";
 
-        public static final String PAGE_NOT_FOUND = "/404";
-        public static final String SERVER_ERROR = "/500";
+        public static final String PAGE_NOT_FOUND = "404";
+        public static final String SERVER_ERROR = "500";
     }
 }

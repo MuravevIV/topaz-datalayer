@@ -21,7 +21,7 @@ public class ThymeleafConfiguration implements WebMvcConfigurer {
     public ITemplateResolver templateResolver() {
         SpringResourceTemplateResolver templateResolver = new SpringResourceTemplateResolver();
         templateResolver.setApplicationContext(applicationContext);
-        templateResolver.setPrefix("/WEB-INF/templates");
+        templateResolver.setPrefix("/WEB-INF/templates/");
         templateResolver.setSuffix(".html");
         templateResolver.setTemplateMode("HTML5");
         // cache should generally be enabled (especially on production)

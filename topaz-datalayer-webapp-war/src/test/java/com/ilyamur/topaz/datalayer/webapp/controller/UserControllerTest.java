@@ -47,7 +47,7 @@ public class UserControllerTest {
     public void users() throws Exception {
         mockMvc.perform(get(Constants.Path.USERS))
                 .andExpect(status().isOk())
-                .andExpect(view().name(Constants.Path.USERS));
+                .andExpect(view().name(Constants.Template.USERS));
     }
 
     @Test

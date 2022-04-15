@@ -14,6 +14,7 @@
 
     <properties>
         <spring-boot.version>2.6.6</spring-boot.version>
+        <start-class>com.ilyamur.topaz.datalayer.webapp.Application</start-class>
     </properties>
 
     <dependencyManagement>
