@@ -12,7 +12,7 @@
     <artifactId>topaz-datalayer-data-jpahibernate</artifactId>
 
     <properties>
-        <hibernate.version>5.3.4.Final</hibernate.version>
+        <hibernate.version>5.6.7.Final</hibernate.version>
     </properties>
 
     <dependencies>
@@ -40,7 +40,7 @@
         <dependency>
             <groupId>org.springframework.data</groupId>
             <artifactId>spring-data-jpa</artifactId>
-            <version>2.0.9.RELEASE</version>
+            <version>2.6.3</version>
         </dependency>
 
         <!-- Hibernate -->

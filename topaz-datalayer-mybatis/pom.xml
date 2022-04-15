@@ -12,8 +12,8 @@
     <artifactId>topaz-datalayer-mybatis</artifactId>
 
     <properties>
-        <mybatis.version>3.4.0</mybatis.version>
-        <mybatis-spring.version>1.3.0</mybatis-spring.version>
+        <mybatis.version>3.5.9</mybatis.version>
+        <mybatis-spring.version>2.0.7</mybatis-spring.version>
     </properties>
 
     <dependencies>

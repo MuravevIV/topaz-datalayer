@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <artifactId>topaz-datalayer</artifactId>
+        <groupId>com.ilyamur.topaz.datalayer</groupId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
+
+    <artifactId>topaz-datalayer-webapp-springboot</artifactId>
+    <packaging>jar</packaging>
+
+    <properties>
+        <spring-boot.version>2.6.6</spring-boot.version>
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-dependencies</artifactId>
+                <version>${spring-boot.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <version>${spring-boot.version}</version>
+            </plugin>
+        </plugins>
+    </build>
+
+    <dependencies>
+
+        <!-- Spring Boot Web -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+
+        <!-- Spring Boot Thymeleaf -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-thymeleaf</artifactId>
+        </dependency>
+
+        <!-- Core -->
+        <dependency>
+            <groupId>com.ilyamur.topaz.datalayer</groupId>
+            <artifactId>topaz-datalayer-core</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+
+        <!-- Servicelayer -->
+        <dependency>
+            <groupId>com.ilyamur.topaz.datalayer</groupId>
+            <artifactId>topaz-datalayer-servicelayer</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+
+        <!-- Datalayer -->
+        <dependency>
+            <groupId>com.ilyamur.topaz.datalayer</groupId>
+            <artifactId>topaz-datalayer-data-jpahibernate</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+
+        <!-- Test Suite -->
+        <dependency>
+            <groupId>com.ilyamur.topaz.datalayer</groupId>
+            <artifactId>topaz-datalayer-testsuite</artifactId>
+            <version>1.0-SNAPSHOT</version>
+            <scope>test</scope>
+        </dependency>
+
+    </dependencies>
+
+</project>

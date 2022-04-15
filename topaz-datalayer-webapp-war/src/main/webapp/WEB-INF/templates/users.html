@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Users</title>
+    <meta charset="utf-8"/>
+</head>
+<body>
+
+<h2>Users</h2>
+
+<table>
+    <thead>
+    <tr>
+        <td>ID</td>
+        <td>Login</td>
+        <td>Email</td>
+        <td>Birthday</td>
+    </tr>
+    </thead>
+    <tbody>
+    <!--
+        Thymeleaf Dialect:
+        https://chibisoft.atlassian.net/wiki/display/~nikki/Thymeleaf+Dialect+Cheat+Sheet
+    -->
+    <tr th:each="user : ${users}">
+        <!-- user.id transforms to user.getId() by Thymeleaf -->
+        <td th:text="${user.id}"></td>
+        <td th:text="${user.login}"></td>
+        <td th:text="${user.email}"></td>
+        <td th:text="${user.birthday}"></td>
+    </tr>
+    </tbody>
+</table>
+
+</body>
+</html>

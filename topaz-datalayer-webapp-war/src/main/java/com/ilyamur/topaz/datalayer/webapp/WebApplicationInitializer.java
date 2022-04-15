@@ -9,18 +9,18 @@ import javax.servlet.ServletException;
 public class WebApplicationInitializer extends AbstractAnnotationConfigDispatcherServletInitializer {
 
     @Override
-    protected String[] getServletMappings() {
-        return new String[]{"/"};
-    }
-
-    @Override
     protected Class<?>[] getRootConfigClasses() {
-        return new Class<?>[]{};
+        return null;
     }
 
     @Override
     protected Class<?>[] getServletConfigClasses() {
         return new Class<?>[]{WebappConfiguration.class};
+    }
+
+    @Override
+    protected String[] getServletMappings() {
+        return new String[]{"/"};
     }
 
     @Override
