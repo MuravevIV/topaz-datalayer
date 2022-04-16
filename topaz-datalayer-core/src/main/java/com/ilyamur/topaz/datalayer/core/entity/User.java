@@ -6,10 +6,19 @@ import com.ilyamur.topaz.datalayer.core.converter.LocalDateConverter;
 import com.ilyamur.topaz.datalayer.core.service.UserMailingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Configurable;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Convert;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.time.LocalDate;
@@ -66,7 +75,6 @@ public class User {
         return email;
     }
 
-    @Transactional(propagation = Propagation.MANDATORY)
     public void setEmail(String email) {
         this.email = email;
     }

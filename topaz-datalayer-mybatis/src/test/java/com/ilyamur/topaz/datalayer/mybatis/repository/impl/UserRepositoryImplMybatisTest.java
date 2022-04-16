@@ -17,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.transaction.TransactionManager;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
@@ -53,11 +54,6 @@ public class UserRepositoryImplMybatisTest {
     @Before
     public void before() {
         databaseReset.apply();
-    }
-
-    @Test(expected = Exception.class)
-    public void anyAction_outsideActiveTransaction_throwsException() throws InterruptedException {
-        target.getAll();
     }
 
     @Test
@@ -135,25 +131,52 @@ public class UserRepositoryImplMybatisTest {
         assertNotNull("LoginExistsException expected", exc);
         assertEquals(String.format(LoginExistsException.MESSAGE, sameLogin), exc.getMessage());
         Collection<User> users = target.getAll();
-        assertTrue("User SHOULD be persisted in database", users.contains(savedUserAbby));
-        assertFalse("User SHOULD NOT be persisted in database", users.contains(userBrian));
+        assertTrue("User 'Abby' SHOULD be persisted in the database", users.contains(savedUserAbby));
+        assertFalse("User 'Brian' SHOULD NOT be persisted in the database", users.contains(userBrian));
     }
 
     @Test
     @Transactional
-    public void saveTwoUsersWithSameLoginSimultaneously_doNotSaveAnyUserAndThrowsLoginExistsException() throws LoginExistsException {
+    public void saveTwoUsersWithSameLoginSimultaneously_whenInsideTransaction() throws LoginExistsException {
+        
         User userUno = helper.createUser("Uno", ANY_EMAIL, ANY_BIRTHDAY, ANY_ROLES);
         target.save(userUno);
+        
+        String sameLogin = "BigBy";
+        User userAbby = helper.createUser(sameLogin, ANY_EMAIL, ANY_BIRTHDAY, ANY_ROLES);
+        User userBrian = helper.createUser(sameLogin, ANY_EMAIL, ANY_BIRTHDAY, ANY_ROLES);
         try {
-            String sameLogin = "BigBy";
-            User userAbby = helper.createUser(sameLogin, ANY_EMAIL, ANY_BIRTHDAY, ANY_ROLES);
-            User userBrian = helper.createUser(sameLogin, ANY_EMAIL, ANY_BIRTHDAY, ANY_ROLES);
             target.saveAll(Lists.newArrayList(userAbby, userBrian));
         } catch (LoginExistsException e) {
             Collection<User> users = target.getAll();
-            assertTrue("User SHOULD be persisted in database", users.contains(userUno));
+            assertTrue("User 'Uno' SHOULD be persisted in database", users.contains(userUno));
+            assertTrue("User 'Abby' SHOULD be persisted within the current transaction context (will be rolled back)", users.contains(userAbby));
+            assertFalse("User 'Brian' SHOULD NOT be persisted within the current transaction context ", users.contains(userBrian));
             return;
         }
+        
+        fail("LoginExistsException expected");
+    }
+
+    @Test
+    public void saveTwoUsersWithSameLoginSimultaneously_whenOutsideTransaction() throws LoginExistsException {
+
+        User userUno = helper.createUser("Uno", ANY_EMAIL, ANY_BIRTHDAY, ANY_ROLES);
+        target.save(userUno);
+
+        String sameLogin = "BigBy";
+        User userAbby = helper.createUser(sameLogin, ANY_EMAIL, ANY_BIRTHDAY, ANY_ROLES);
+        User userBrian = helper.createUser(sameLogin, ANY_EMAIL, ANY_BIRTHDAY, ANY_ROLES);
+        try {
+            target.saveAll(Lists.newArrayList(userAbby, userBrian));
+        } catch (LoginExistsException e) {
+            Collection<User> users = target.getAll();
+            assertTrue("User 'Uno' SHOULD be persisted in database", users.contains(userUno));
+            assertFalse("User 'Abby' SHOULD NOT be persisted in the database", users.contains(userAbby));
+            assertFalse("User 'Brian' SHOULD NOT be persisted in the database", users.contains(userBrian));
+            return;
+        }
+
         fail("LoginExistsException expected");
     }
 }

@@ -35,17 +35,6 @@ public class UserTest {
         MockitoAnnotations.initMocks(this);
     }
 
-    @Test(expected = IllegalTransactionStateException.class)
-    public void setEmail_outsideTransaction() {
-        target.setEmail("user@email.com");
-    }
-
-    @Test
-    @Transactional
-    public void setEmail_insideTransaction() {
-        target.setEmail("user@email.com");
-    }
-
     @Test
     public void sendEmail() {
         target.sendEmail("email text");

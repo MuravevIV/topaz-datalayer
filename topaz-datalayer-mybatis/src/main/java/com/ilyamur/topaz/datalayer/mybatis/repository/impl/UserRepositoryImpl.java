@@ -10,7 +10,6 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.PostConstruct;
@@ -18,7 +17,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 @Repository
-@Transactional(propagation = Propagation.MANDATORY)
 public class UserRepositoryImpl implements UserRepository {
 
     private static final String CONSTRAINT_UNIQUE_LOGIN = "U0_USER_LOGIN";
@@ -34,7 +32,7 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
-    @Transactional(rollbackFor = {LoginExistsException.class})
+    @Transactional(rollbackFor = {RuntimeException.class, LoginExistsException.class})
     public User save(User user) throws LoginExistsException {
         if (user != null) {
             try {
@@ -51,7 +49,7 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
-    @Transactional(rollbackFor = {LoginExistsException.class})
+    @Transactional(rollbackFor = {RuntimeException.class, LoginExistsException.class})
     public Collection<User> saveAll(Collection<User> users) throws LoginExistsException {
         ArrayList<User> savedUsers = Lists.newArrayList();
         for (User user : users) {
@@ -61,6 +59,7 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
+    @Transactional
     public void delete(User user) {
         mapper.delete(user);
     }
