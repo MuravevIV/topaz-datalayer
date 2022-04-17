@@ -10,15 +10,15 @@
     <version>1.0-SNAPSHOT</version>
 
     <modules>
-        <module>topaz-datalayer-mybatis</module>
         <module>topaz-datalayer-core</module>
+        <module>topaz-datalayer-mybatis</module>
         <module>topaz-datalayer-hibernate</module>
-        <module>topaz-datalayer-testsuite</module>
-        <module>topaz-datalayer-jpahibernate</module>
-        <module>topaz-datalayer-data-jpahibernate</module>
-        <module>topaz-datalayer-webapp-war</module>
-        <module>topaz-datalayer-webapp-springboot</module>
+        <module>topaz-datalayer-jpa-hibernate</module>
+        <module>topaz-datalayer-springdata-jpa-hibernate</module>
         <module>topaz-datalayer-servicelayer</module>
+        <module>topaz-datalayer-webapp-springwebmvc</module>
+        <module>topaz-datalayer-webapp-springboot</module>
+        <module>topaz-datalayer-testsuite</module>
     </modules>
 
     <properties>
@@ -116,6 +116,7 @@
             <groupId>org.aspectj</groupId>
             <artifactId>aspectjrt</artifactId>
             <version>1.9.7</version>
+            <!-- todo - resolve -->
             <!--<scope>runtime</scope>-->
         </dependency>
         <dependency>

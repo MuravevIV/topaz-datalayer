@@ -14,7 +14,7 @@
 
     <properties>
         <spring-boot.version>2.6.6</spring-boot.version>
-        <start-class>com.ilyamur.topaz.datalayer.webapp.Application</start-class>
+        <start-class>com.ilyamur.topaz.datalayer.webapp.springwebmvc.springboot.Application</start-class>
     </properties>
 
     <dependencyManagement>
@@ -70,7 +70,7 @@
         <!-- Datalayer -->
         <dependency>
             <groupId>com.ilyamur.topaz.datalayer</groupId>
-            <artifactId>topaz-datalayer-data-jpahibernate</artifactId>
+            <artifactId>topaz-datalayer-springdata-jpa-hibernate</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
 

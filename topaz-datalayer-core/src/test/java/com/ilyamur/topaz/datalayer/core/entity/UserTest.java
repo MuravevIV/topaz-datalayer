@@ -2,6 +2,7 @@ package com.ilyamur.topaz.datalayer.core.entity;
 
 import com.ilyamur.topaz.datalayer.core.ApplicationProfile;
 import com.ilyamur.topaz.datalayer.core.CoreConfiguration;
+import com.ilyamur.topaz.datalayer.core.configuration.TestCoreTransactionConfiguration;
 import com.ilyamur.topaz.datalayer.core.service.UserMailingService;
 import org.junit.Before;
 import org.junit.Test;
@@ -12,13 +13,11 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.transaction.IllegalTransactionStateException;
-import org.springframework.transaction.annotation.Transactional;
 
 import static org.mockito.Mockito.verify;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = {CoreConfiguration.class})
+@ContextConfiguration(classes = {CoreConfiguration.class, TestCoreTransactionConfiguration.class})
 @ActiveProfiles(ApplicationProfile.TESTING)
 public class UserTest {
 
@@ -26,18 +25,17 @@ public class UserTest {
     private UserMailingService userMailingService;
 
     @InjectMocks
-    private User target = new User();
+    private User user = new User();
 
     @Before
-    @Transactional
     public void before() {
-        target.setEmail("user@email.com");
         MockitoAnnotations.initMocks(this);
     }
 
     @Test
     public void sendEmail() {
-        target.sendEmail("email text");
+        user.setEmail("user@email.com");
+        user.sendEmail("email text");
 
         verify(userMailingService).sendEmail("user@email.com", "email text");
     }

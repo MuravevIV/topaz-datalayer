@@ -3,11 +3,11 @@
 <configuration>
 
     <typeHandlers>
-        <package name="com.ilyamur.topaz.datalayer.mybatis.typehandler"/>
+        <package name="com.ilyamur.topaz.datalayer.typehandler"/>
     </typeHandlers>
 
     <mappers>
-        <package name="com.ilyamur.topaz.datalayer.mybatis.mapper"/>
+        <package name="com.ilyamur.topaz.datalayer.mapper"/>
     </mappers>
 
 </configuration>

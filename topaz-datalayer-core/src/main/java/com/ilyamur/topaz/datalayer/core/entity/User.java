@@ -24,6 +24,11 @@ import javax.validation.constraints.Size;
 import java.time.LocalDate;
 import java.util.Set;
 
+/**
+ * todo:
+ * Resolve:
+ * ajc: this affected type is not exposed to the weaver: com.ilyamur.topaz.datalayer.core.entity.User [Xlint:typeNotExposedToWeaver]
+ */
 @Entity
 @Table(name = "user")
 @Configurable

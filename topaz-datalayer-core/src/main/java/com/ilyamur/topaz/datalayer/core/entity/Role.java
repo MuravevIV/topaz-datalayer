@@ -3,7 +3,12 @@ package com.ilyamur.topaz.datalayer.core.entity;
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -11,7 +16,10 @@ import javax.validation.constraints.Size;
 @Table(name = "role")
 public class Role {
 
+    @Transient
     public static final Role REGISTERED_USER;
+
+    @Transient
     public static final Role ADMIN;
 
     static {
@@ -32,6 +40,10 @@ public class Role {
     @NotNull
     @Size(min = 2, max = 80)
     private String name;
+
+    public Role getREGISTERED_USER() {
+        return REGISTERED_USER;
+    }
 
     public Long getId() {
         return id;

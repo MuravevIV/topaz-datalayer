@@ -53,14 +53,14 @@ mvn spring-boot:run
 ### Spring WebMVC via packaged WAR
 
 ```
-cd topaz-datalayer-webapp-war
+cd topaz-datalayer-webapp-springwebmvc
 mvn clean install
 ```
 
 Deploy WAR file to a servlet container:
 
 ```
-target/topaz-datalayer-webapp-war-1.0-SNAPSHOT.war
+target/topaz-datalayer-webapp-springwebmvc-1.0-SNAPSHOT.war
 ```
 
 ### Spring WebMVC via Maven
