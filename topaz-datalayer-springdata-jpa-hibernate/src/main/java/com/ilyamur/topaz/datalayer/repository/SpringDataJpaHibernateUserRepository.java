@@ -1,14 +1,13 @@
 package com.ilyamur.topaz.datalayer.repository;
 
 import com.ilyamur.topaz.datalayer.core.entity.User;
-import com.ilyamur.topaz.datalayer.core.repository.UserRepository;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Repository
-public interface SpringDataJpaHibernateUserRepository extends UserRepository, JpaRepository<User, Long> {
+@Service
+public interface SpringDataJpaHibernateUserRepository extends JpaRepository<User, Long> {
 
     @Override
     User save(User user);

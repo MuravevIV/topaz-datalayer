@@ -115,9 +115,9 @@
         <dependency>
             <groupId>org.aspectj</groupId>
             <artifactId>aspectjrt</artifactId>
+            <!-- should be 1.9.7 -->
             <version>1.9.7</version>
-            <!-- todo - resolve -->
-            <!--<scope>runtime</scope>-->
+            <scope>runtime</scope>
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>

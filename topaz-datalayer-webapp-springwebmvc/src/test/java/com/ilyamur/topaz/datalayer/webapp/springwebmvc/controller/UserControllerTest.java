@@ -1,7 +1,7 @@
 package com.ilyamur.topaz.datalayer.webapp.springwebmvc.controller;
 
 import com.ilyamur.topaz.datalayer.core.ApplicationProfile;
-import com.ilyamur.topaz.datalayer.core.service.DatabaseReset;
+import com.ilyamur.topaz.datalayer.testsuite.service.DatabaseReset;
 import com.ilyamur.topaz.datalayer.testsuite.TestSuiteConfiguration;
 import com.ilyamur.topaz.datalayer.webapp.springwebmvc.Constants;
 import com.ilyamur.topaz.datalayer.webapp.springwebmvc.WebappConfiguration;

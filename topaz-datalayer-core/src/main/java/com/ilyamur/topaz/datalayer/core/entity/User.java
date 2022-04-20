@@ -39,7 +39,9 @@ public class User {
     private UserMailingService userMailingService;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @NotNull
+    // todo - update to GenerationType.SEQUENCE ?
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @NotNull
@@ -54,7 +56,7 @@ public class User {
     @Convert(converter = LocalDateConverter.class)
     private LocalDate birthday;
 
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     @JoinTable(name = "user_role",
             joinColumns = @JoinColumn(name = "id_user", nullable = false, updatable = false),
             inverseJoinColumns = @JoinColumn(name = "id_role", nullable = false, updatable = false))

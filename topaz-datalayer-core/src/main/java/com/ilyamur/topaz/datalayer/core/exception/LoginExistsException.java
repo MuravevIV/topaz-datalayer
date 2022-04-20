@@ -1,11 +1,10 @@
 package com.ilyamur.topaz.datalayer.core.exception;
 
-// todo - remove?
 public class LoginExistsException extends RuntimeException {
 
     public static final String MESSAGE = "Login '%s' already exists in database.";
 
-    private String message;
+    private final String message;
 
     public LoginExistsException(String login) {
         this.message = String.format(MESSAGE, login);

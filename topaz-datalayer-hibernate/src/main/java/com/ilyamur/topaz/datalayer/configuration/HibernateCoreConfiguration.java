@@ -12,11 +12,11 @@ import java.util.Properties;
 @Configuration
 public class HibernateCoreConfiguration {
 
-    private static final String HIBERNATE_DIALECT = "org.hibernate.dialect.HSQLDialect";
-    private static final String HIBERNATE_SHOW_SQL = "true";
-    private static final String HIBERNATE_GENERATE_STATISTICS = "true";
-    private static final String HIBERNATE_HBM2DDL_AUTO = "create";
-    private static final String HIBERNATE_PACKAGES_TO_SCAN = "com.ilyamur.topaz.datalayer.core.entity";
+    public static final String HIBERNATE_DIALECT = "org.hibernate.dialect.HSQLDialect";
+    public static final String HIBERNATE_SHOW_SQL = "true";
+    public static final String HIBERNATE_GENERATE_STATISTICS = "true";
+    public static final String HIBERNATE_HBM2DDL_AUTO = "create";
+    public static final String HIBERNATE_PACKAGES_TO_SCAN = "com.ilyamur.topaz.datalayer.core.entity";
 
     @Bean
     public DataSource dataSource() {

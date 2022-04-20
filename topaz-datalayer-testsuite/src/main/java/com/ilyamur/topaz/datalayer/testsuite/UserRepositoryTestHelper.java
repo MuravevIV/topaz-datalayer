@@ -1,4 +1,4 @@
-package com.ilyamur.topaz.datalayer.repository;
+package com.ilyamur.topaz.datalayer.testsuite;
 
 import com.ilyamur.topaz.datalayer.core.entity.Role;
 import com.ilyamur.topaz.datalayer.core.entity.User;

@@ -1,18 +1,25 @@
 package com.ilyamur.topaz.datalayer.repository;
 
 import com.ilyamur.topaz.datalayer.core.entity.User;
+import com.ilyamur.topaz.datalayer.core.exception.LoginExistsException;
 import com.ilyamur.topaz.datalayer.core.repository.UserRepository;
+import org.apache.commons.lang3.StringUtils;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Repository
+@Transactional
 public class HibernateUserRepository implements UserRepository {
+
+    private static final String CONSTRAINT_UNIQUE_LOGIN = "U0_USER_LOGIN";
 
     @Autowired
     private SessionFactory sessionFactory;
@@ -24,8 +31,16 @@ public class HibernateUserRepository implements UserRepository {
     @Override
     public User save(User user) {
         // todo - test "to update"
-        return (User) getSession()
-                .save(user);
+        try {
+            getSession().save(user);
+        } catch (ConstraintViolationException e) {
+            if (isConstraintViolation(e, CONSTRAINT_UNIQUE_LOGIN)) {
+                throw new LoginExistsException(user.getLogin(), e);
+            } else {
+                throw e;
+            }
+        }
+        return user;
     }
 
     @Override
@@ -65,5 +80,9 @@ public class HibernateUserRepository implements UserRepository {
                 .createQuery("from User where login = :login")
                 .setParameter("login", login)
                 .uniqueResult();
+    }
+
+    private boolean isConstraintViolation(ConstraintViolationException e, String constraintName) {
+        return StringUtils.equals(e.getConstraintName(), constraintName);
     }
 }

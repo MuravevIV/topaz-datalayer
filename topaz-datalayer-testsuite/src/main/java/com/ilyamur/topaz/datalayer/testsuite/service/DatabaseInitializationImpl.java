@@ -1,7 +1,6 @@
 package com.ilyamur.topaz.datalayer.testsuite.service;
 
 import com.ilyamur.topaz.datalayer.core.ApplicationProfile;
-import com.ilyamur.topaz.datalayer.core.service.DatabaseInitialization;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

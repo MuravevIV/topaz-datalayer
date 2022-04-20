@@ -4,6 +4,7 @@ import org.springframework.context.annotation.AdviceMode;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.orm.jpa.JpaTransactionManager;
+import org.springframework.orm.jpa.vendor.HibernateJpaDialect;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import javax.persistence.EntityManagerFactory;
@@ -16,8 +17,7 @@ public class JpaHibernateTransactionConfiguration {
     public JpaTransactionManager transactionManager(EntityManagerFactory entityManagerFactory) {
         JpaTransactionManager transactionManager = new JpaTransactionManager();
         transactionManager.setEntityManagerFactory(entityManagerFactory);
-        // todo - check with
-        // transactionManager.setJpaDialect(new HibernateJpaDialect());
+        transactionManager.setJpaDialect(new HibernateJpaDialect());
         // transactionManager.setNestedTransactionAllowed(true);
         return transactionManager;
     }
