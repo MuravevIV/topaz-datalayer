@@ -3,7 +3,6 @@ package com.ilyamur.topaz.datalayer.repository;
 import com.ilyamur.topaz.datalayer.core.entity.User;
 import com.ilyamur.topaz.datalayer.core.exception.LoginExistsException;
 import com.ilyamur.topaz.datalayer.core.repository.UserRepository;
-import org.apache.commons.lang3.StringUtils;
 import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,7 +18,7 @@ import java.util.List;
 @Transactional
 public class JpaHibernateUserRepository implements UserRepository {
 
-    private static final String CONSTRAINT_UNIQUE_LOGIN = "U0_USER_LOGIN";
+    private static final String CONSTRAINT_UNIQUE_LOGIN = "U0_USERS_LOGIN";
 
     @PersistenceContext
     private EntityManager entityManager;
@@ -78,8 +77,8 @@ public class JpaHibernateUserRepository implements UserRepository {
 
     private boolean isConstraintViolation(PersistenceException e, String constraintName) {
         if (e.getCause() instanceof ConstraintViolationException) {
-            ConstraintViolationException cve = (ConstraintViolationException) e.getCause();
-            return StringUtils.equals(cve.getConstraintName(), constraintName);
+            String message = ((ConstraintViolationException) e.getCause()).getSQLException().getMessage();
+            return message.toUpperCase().contains(constraintName);
         }
         return false;
     }

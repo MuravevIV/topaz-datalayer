@@ -7,6 +7,7 @@ import org.springframework.context.annotation.aspectj.EnableSpringConfigured;
 @Configuration
 @ComponentScan
 @EnableSpringConfigured
+// todo - investigate
 // @EnableLoadTimeWeaving
 public class CoreConfiguration {
 }

@@ -26,7 +26,7 @@ public class SchemaGenerator {
 
         StandardServiceRegistry standardRegistry = new StandardServiceRegistryBuilder()
                 .applySetting("hibernate.hbm2ddl.auto", "create")
-                .applySetting("hibernate.dialect", "org.hibernate.dialect.HSQLDialect")
+                .applySetting("hibernate.dialect", "org.hibernate.dialect.PostgreSQL82Dialect")
                 .applySetting("hibernate.id.new_generator_mappings", "true")
                 .build();
 

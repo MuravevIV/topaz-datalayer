@@ -14,12 +14,13 @@ import org.springframework.util.Assert;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 @Repository
 @Transactional
 public class MybatisUserRepository implements UserRepository {
 
-    private static final String CONSTRAINT_UNIQUE_LOGIN = "U0_USER_LOGIN";
+    private static final String CONSTRAINT_UNIQUE_LOGIN = "U0_USERS_LOGIN";
 
     @Autowired
     private UserMapper mapper;
@@ -93,6 +94,6 @@ public class MybatisUserRepository implements UserRepository {
     }
 
     private boolean isConstraintViolation(Exception e, String constraintName) {
-        return e.getMessage().contains(String.format(" %s ", constraintName));
+        return e.getMessage().toUpperCase().contains(constraintName);
     }
 }

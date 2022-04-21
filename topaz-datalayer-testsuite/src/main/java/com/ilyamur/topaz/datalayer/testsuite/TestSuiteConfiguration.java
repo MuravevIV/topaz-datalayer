@@ -1,12 +1,11 @@
 package com.ilyamur.topaz.datalayer.testsuite;
 
 import com.ilyamur.topaz.datalayer.ServicelayerConfiguration;
-import org.springframework.context.annotation.ComponentScan;
+import com.ilyamur.topaz.datalayer.testsuite.configuration.PostgreSQLTestContainerConfiguration;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 
 @Configuration
-@ComponentScan
-@Import(ServicelayerConfiguration.class)
+@Import({ServicelayerConfiguration.class, PostgreSQLTestContainerConfiguration.class})
 public class TestSuiteConfiguration {
 }

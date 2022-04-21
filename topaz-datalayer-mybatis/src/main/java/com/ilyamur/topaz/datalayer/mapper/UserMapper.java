@@ -22,28 +22,28 @@ import java.util.Set;
 public interface UserMapper {
 
     @Insert({
-            "insert into user (id, login, email, birthday)",
-            "values (#{id}, #{login}, #{email}, #{birthday})"
+            "insert into users (login, email, birthday)",
+            "values (#{login}, #{email}, #{birthday})"
     })
     @Options(useGeneratedKeys = true, keyProperty = "id")
     int insert(User user);
 
     @Update({
-            "update user",
+            "update users",
             "set login = #{login}, email = #{email}, birthday = #{birthday}",
             "where id = #{id}"
     })
     int update(User user);
 
     @Delete({
-            "delete from user",
+            "delete from users",
             "where id = #{id}"
     })
     void delete(User user);
 
     @Select({
             "select id, login, email, birthday",
-            "from user",
+            "from users",
             "where id = #{id}"
     })
     @Results(id = "userResult", value = {
@@ -76,7 +76,7 @@ public interface UserMapper {
 
     @Select({
             "select id, login, email, birthday",
-            "from user",
+            "from users",
             "where login = #{login}"
     })
     @ResultMap("userResult")
@@ -84,7 +84,7 @@ public interface UserMapper {
 
     @Select({
             "select id, login, email, birthday",
-            "from user"
+            "from users"
     })
     @ResultMap("userResult")
     Collection<User> selectAll();

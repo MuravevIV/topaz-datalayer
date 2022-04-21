@@ -3,7 +3,6 @@ package com.ilyamur.topaz.datalayer.testsuite;
 import com.google.common.collect.Sets;
 import com.ilyamur.topaz.datalayer.core.entity.Role;
 import com.ilyamur.topaz.datalayer.core.entity.User;
-import org.junit.Ignore;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
@@ -11,7 +10,6 @@ import java.time.Month;
 import java.util.HashSet;
 import java.util.Set;
 
-@Ignore
 @Component
 public class UserRepositoryTestHelperImpl implements UserRepositoryTestHelper {
 

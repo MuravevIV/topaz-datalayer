@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Configurable;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Convert;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -30,7 +31,7 @@ import java.util.Set;
  * ajc: this affected type is not exposed to the weaver: com.ilyamur.topaz.datalayer.core.entity.User [Xlint:typeNotExposedToWeaver]
  */
 @Entity
-@Table(name = "user")
+@Table(name = "users")
 @Configurable
 public class User {
 
@@ -42,6 +43,7 @@ public class User {
     @NotNull
     // todo - update to GenerationType.SEQUENCE ?
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    // @Column(name="id", unique = true, nullable = false)
     private Long id;
 
     @NotNull
@@ -113,13 +115,14 @@ public class User {
         User user = (User) o;
         return Objects.equal(id, user.id) &&
                 Objects.equal(login, user.login) &&
+                Objects.equal(email, user.email) &&
                 Objects.equal(birthday, user.birthday) &&
                 Objects.equal(roles, user.roles);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(id, login, birthday, roles);
+        return Objects.hashCode(id, login, email, birthday, roles);
     }
 
     @Override
@@ -127,6 +130,7 @@ public class User {
         return MoreObjects.toStringHelper(this)
                 .add("id", id)
                 .add("login", login)
+                .add("email", email)
                 .add("birthday", birthday)
                 .toString();
     }

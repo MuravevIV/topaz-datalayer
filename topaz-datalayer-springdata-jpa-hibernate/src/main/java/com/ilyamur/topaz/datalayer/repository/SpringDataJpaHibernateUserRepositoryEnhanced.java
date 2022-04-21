@@ -9,15 +9,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Assert;
 
-import javax.persistence.PersistenceException;
+import java.util.ArrayList;
 import java.util.List;
 
 @Repository
 @Transactional
 public class SpringDataJpaHibernateUserRepositoryEnhanced implements UserRepository {
 
-    private static final String CONSTRAINT_UNIQUE_LOGIN = "U0_USER_LOGIN";
+    private static final String CONSTRAINT_UNIQUE_LOGIN = "U0_USERS_LOGIN";
 
     @Autowired
     private SpringDataJpaHibernateUserRepository repository;
@@ -36,16 +37,14 @@ public class SpringDataJpaHibernateUserRepositoryEnhanced implements UserReposit
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public <S extends User> List<S> saveAll(Iterable<S> entities) {
-        try {
-            return repository.saveAll(entities);
-        } catch (DataIntegrityViolationException e) {
-            if (isConstraintViolation(e, CONSTRAINT_UNIQUE_LOGIN)) {
-                throw new LoginExistsException("", e);
-            } else {
-                throw e;
-            }
+        Assert.notNull(entities, "Entities must not be null!");
+        List<User> result = new ArrayList<>();
+        for (User entity : entities) {
+            result.add(save(entity));
         }
+        return (List<S>) result;
     }
 
     @Override
@@ -71,7 +70,7 @@ public class SpringDataJpaHibernateUserRepositoryEnhanced implements UserReposit
     private boolean isConstraintViolation(DataIntegrityViolationException e, String constraintName) {
         if (e.getCause() instanceof ConstraintViolationException) {
             ConstraintViolationException cve = (ConstraintViolationException) e.getCause();
-            return StringUtils.equals(cve.getConstraintName(), constraintName);
+            return StringUtils.equalsIgnoreCase(cve.getConstraintName(), constraintName);
         }
         return false;
     }

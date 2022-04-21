@@ -4,19 +4,19 @@ import com.ilyamur.topaz.datalayer.core.ApplicationProfile;
 import com.ilyamur.topaz.datalayer.core.CoreConfiguration;
 import com.ilyamur.topaz.datalayer.core.configuration.TestCoreTransactionConfiguration;
 import com.ilyamur.topaz.datalayer.core.service.UserMailingService;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import static org.mockito.Mockito.verify;
 
-@RunWith(SpringJUnit4ClassRunner.class)
+@ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = {CoreConfiguration.class, TestCoreTransactionConfiguration.class})
 @ActiveProfiles(ApplicationProfile.TESTING)
 public class UserTest {
@@ -25,11 +25,11 @@ public class UserTest {
     private UserMailingService userMailingService;
 
     @InjectMocks
-    private User user = new User();
+    private User user;
 
-    @Before
-    public void before() {
-        MockitoAnnotations.initMocks(this);
+    @BeforeEach
+    public void beforeEach() {
+        MockitoAnnotations.openMocks(this);
     }
 
     @Test

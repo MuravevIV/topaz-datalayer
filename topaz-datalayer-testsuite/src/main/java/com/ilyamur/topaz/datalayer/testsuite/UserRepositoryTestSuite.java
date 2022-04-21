@@ -7,9 +7,8 @@ import com.ilyamur.topaz.datalayer.core.entity.User;
 import com.ilyamur.topaz.datalayer.core.exception.LoginExistsException;
 import com.ilyamur.topaz.datalayer.core.repository.UserRepository;
 import com.ilyamur.topaz.datalayer.testsuite.service.DatabaseReset;
-import org.junit.Before;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,16 +17,11 @@ import java.time.Month;
 import java.util.List;
 import java.util.Set;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.assertj.core.api.Assertions.assertThat;
 
-@Ignore
 public class UserRepositoryTestSuite {
 
-    private static final int EXISTING_ID_USER = 0;
+    private static final int EXISTING_ID_USER = 1;
     private static final String EXISTING_LOGIN = "John";
     private static final String ANY_EMAIL = "any@gmail.com";
     private static final LocalDate ANY_BIRTHDAY = LocalDate.of(1990, Month.APRIL, 27);
@@ -42,8 +36,8 @@ public class UserRepositoryTestSuite {
     @Autowired
     private UserRepositoryTestHelper helper;
 
-    @Before
-    public void before() {
+    @BeforeEach
+    public void beforeEach() {
         databaseReset.apply();
     }
 
@@ -60,7 +54,7 @@ public class UserRepositoryTestSuite {
         User savedUser = userRepository.save(user);
         User foundUser = userRepository.findById(savedUser.getId());
 
-        assertEquals(savedUser, foundUser);
+        assertThat(foundUser).isEqualTo(savedUser);
     }
 
     @Test
@@ -70,7 +64,7 @@ public class UserRepositoryTestSuite {
         User savedUser = userRepository.save(user);
         User foundUser = userRepository.findByLogin(user.getLogin());
 
-        assertEquals(savedUser, foundUser);
+        assertThat(foundUser).isEqualTo(savedUser);
     }
 
     @Test
@@ -79,7 +73,7 @@ public class UserRepositoryTestSuite {
         User foundUser = userRepository.findById(EXISTING_ID_USER);
         User savedUser = userRepository.save(foundUser);
 
-        assertEquals(foundUser, savedUser);
+        assertThat(foundUser).isEqualTo(savedUser);
     }
 
     @Test
@@ -88,7 +82,7 @@ public class UserRepositoryTestSuite {
         User foundUser = userRepository.findByLogin(EXISTING_LOGIN);
         User savedUser = userRepository.save(foundUser);
 
-        assertEquals(foundUser, savedUser);
+        assertThat(foundUser).isEqualTo(savedUser);
     }
 
     @Test
@@ -101,77 +95,66 @@ public class UserRepositoryTestSuite {
 
         User foundUser = userRepository.findByLogin(EXISTING_LOGIN);
 
-        assertEquals(newBirthday, foundUser.getBirthday());
+        assertThat(foundUser.getBirthday()).isEqualTo(newBirthday);
     }
 
-    // todo - fix
-    @Ignore
     @Test
-    @Transactional
-    public void saveTwoUsersWithSameLoginSequentially_savesOnlyFirstUserAndThrowsLoginExistsException() throws LoginExistsException {
-        String sameLogin = "BigBy";
-        User userAbby = helper.createUser(sameLogin, ANY_EMAIL, ANY_BIRTHDAY, ANY_ROLES);
-        User userBrian = helper.createUser(sameLogin, ANY_EMAIL, ANY_BIRTHDAY, ANY_ROLES);
+    public void saveUserThenReadUser() {
+        User createdUser = helper.createUser("Andy", ANY_EMAIL, ANY_BIRTHDAY, ANY_ROLES);
+        userRepository.save(createdUser);
 
-        User savedUserAbby = userRepository.save(userAbby);
+        User savedUser = userRepository.findByLogin("Andy");
+
+        assertThat(savedUser).isEqualTo(createdUser);
+    }
+
+    @Test
+    public void saveTwoUsersWithSameLogin_withinTransaction() {
+        String sameLogin = "BigBy";
+        User userAbby = helper.createUser(sameLogin, "abby@email.com", ANY_BIRTHDAY, ANY_ROLES);
+        User userBrian = helper.createUser(sameLogin, "brian@email.com", ANY_BIRTHDAY, ANY_ROLES);
+
         LoginExistsException exc = null;
         try {
-            userRepository.save(userBrian);
+            saveTwoUsersWithSameLogin_withinTransaction(userAbby, userBrian);
         } catch (LoginExistsException e) {
             exc = e;
         }
+        assertThat(exc).describedAs("LoginExistsException expected").isNotNull();
+        assertThat(String.format(LoginExistsException.MESSAGE, sameLogin)).isEqualTo(exc.getMessage());
 
-        assertNotNull("LoginExistsException expected", exc);
-        assertEquals(String.format(LoginExistsException.MESSAGE, sameLogin), exc.getMessage());
         List<User> users = userRepository.findAll();
-        assertTrue("User 'Abby' SHOULD be persisted in the database", users.contains(savedUserAbby));
-        assertFalse("User 'Brian' SHOULD NOT be persisted in the database", users.contains(userBrian));
+        assertThat(users.contains(userAbby)).describedAs("User 'Abby' SHOULD NOT be persisted in the database").isFalse();
+        assertThat(users.contains(userBrian)).describedAs("User 'Brian' SHOULD NOT be persisted in the database").isFalse();
     }
 
-    // todo - fix
-    @Ignore
-    @Test
     @Transactional
-    public void saveTwoUsersWithSameLoginSimultaneously_whenInsideTransaction() throws LoginExistsException {
-
-        User userUno = helper.createUser("Uno", ANY_EMAIL, ANY_BIRTHDAY, ANY_ROLES);
-        userRepository.save(userUno);
-
-        String sameLogin = "BigBy";
-        User userAbby = helper.createUser(sameLogin, ANY_EMAIL, ANY_BIRTHDAY, ANY_ROLES);
-        User userBrian = helper.createUser(sameLogin, ANY_EMAIL, ANY_BIRTHDAY, ANY_ROLES);
-        try {
-            userRepository.saveAll(Lists.newArrayList(userAbby, userBrian));
-        } catch (LoginExistsException e) {
-            List<User> users = userRepository.findAll();
-            assertTrue("User 'Uno' SHOULD be persisted in database", users.contains(userUno));
-            assertTrue("User 'Abby' SHOULD be persisted within the current transaction context (will be rolled back)", users.contains(userAbby));
-            assertFalse("User 'Brian' SHOULD NOT be persisted within the current transaction context ", users.contains(userBrian));
-            return;
-        }
-
-        fail("LoginExistsException expected");
+    void saveTwoUsersWithSameLogin_withinTransaction(User userAbby, User userBrian) {
+        userRepository.save(userAbby);
+        userRepository.save(userBrian);
     }
 
     @Test
-    public void saveTwoUsersWithSameLoginSimultaneously_whenOutsideTransaction() throws LoginExistsException {
-
+    public void saveTwoUsersWithSameLoginSimultaneously() throws LoginExistsException {
         User userUno = helper.createUser("Uno", ANY_EMAIL, ANY_BIRTHDAY, ANY_ROLES);
         userRepository.save(userUno);
 
         String sameLogin = "BigBy";
         User userAbby = helper.createUser(sameLogin, ANY_EMAIL, ANY_BIRTHDAY, ANY_ROLES);
         User userBrian = helper.createUser(sameLogin, ANY_EMAIL, ANY_BIRTHDAY, ANY_ROLES);
+
+        LoginExistsException exc = null;
         try {
             userRepository.saveAll(Lists.newArrayList(userAbby, userBrian));
         } catch (LoginExistsException e) {
-            List<User> users = userRepository.findAll();
-            assertTrue("User 'Uno' SHOULD be persisted in database", users.contains(userUno));
-            assertFalse("User 'Abby' SHOULD NOT be persisted in the database", users.contains(userAbby));
-            assertFalse("User 'Brian' SHOULD NOT be persisted in the database", users.contains(userBrian));
-            return;
+            exc = e;
         }
+        assertThat(exc).describedAs("LoginExistsException expected").isNotNull();
+        assertThat(String.format(LoginExistsException.MESSAGE, sameLogin)).isEqualTo(exc.getMessage());
 
-        fail("LoginExistsException expected");
+        List<User> users = userRepository.findAll();
+        assertThat(users.contains(userUno)).describedAs("User 'Uno' SHOULD be persisted in the database").isTrue();
+        assertThat(users.contains(userAbby)).describedAs("User 'Abby' SHOULD NOT be persisted in the database").isFalse();
+        assertThat(users.contains(userBrian)).describedAs("User 'Brian' SHOULD NOT be persisted in the database").isFalse();
     }
 }

@@ -19,7 +19,7 @@ import java.util.List;
 @Transactional
 public class HibernateUserRepository implements UserRepository {
 
-    private static final String CONSTRAINT_UNIQUE_LOGIN = "U0_USER_LOGIN";
+    private static final String CONSTRAINT_UNIQUE_LOGIN = "U0_USERS_LOGIN";
 
     @Autowired
     private SessionFactory sessionFactory;
@@ -33,7 +33,7 @@ public class HibernateUserRepository implements UserRepository {
         // todo - test "to update"
         try {
             getSession().save(user);
-        } catch (ConstraintViolationException e) {
+        } catch (Exception e) {
             if (isConstraintViolation(e, CONSTRAINT_UNIQUE_LOGIN)) {
                 throw new LoginExistsException(user.getLogin(), e);
             } else {
@@ -82,7 +82,11 @@ public class HibernateUserRepository implements UserRepository {
                 .uniqueResult();
     }
 
-    private boolean isConstraintViolation(ConstraintViolationException e, String constraintName) {
-        return StringUtils.equals(e.getConstraintName(), constraintName);
+    private boolean isConstraintViolation(Exception e, String constraintName) {
+        if (e instanceof ConstraintViolationException) {
+            String message = ((ConstraintViolationException) e).getSQLException().getMessage();
+            return message.toUpperCase().contains(constraintName);
+        }
+        return false;
     }
 }
